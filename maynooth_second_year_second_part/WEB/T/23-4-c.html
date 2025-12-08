@@ -1,0 +1,24 @@
+<style>
+    .circle {
+      /* 1. 将元素自身大小设为0，让边框成为主体 */
+      width: 0;
+      height: 0;
+    
+      /* 2. 设置边框样式和宽度 */
+      border-style: solid;
+      border-width: 50px; /* 边框宽度即为圆的半径 */
+      border-top:700px;
+      /* border-height 不是有效的 CSS 属性，已移除 */
+    
+      /* 3. 为四个方向的边框设置不同颜色 */
+      border-top-color: transparent;
+      border-right-color: transparent;
+      border-bottom-color: green;
+      border-left-color:transparent;
+    
+      /* 4. 使用 border-radius 将正方形边框变为圆形 */
+      /* border-radius: 50%; */
+    }
+    </style>
+    
+    <div class="circle"></div>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>表单验证</title>
+<style>
+  body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Changed from center to flex-start to match UI */
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    padding-top: 20px; /* Added padding to match UI */
+  }
+  .container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group label {
+    display: inline-block; /* Changed from block to inline-block */
+    margin-bottom: 5px;
+    width: 50px; /* Approximate width for labels */
+    text-align: right;
+    margin-right: 5px;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="email"] {
+    width: 200px; /* Approximate width for inputs */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .form-group input[type="submit"] {
+    background-color: #e9e9e9; /* Light gray background for button */
+    color: black;
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .form-group input[type="submit"]:hover {
+    background-color: #dcdcdc;
+  }
+  /* Mimic the layout from the image */
+  .form-inline {
+    display: flex;
+    align-items: center;
+  }
+  .form-inline .form-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Space between Phone and Submit */
+    margin-bottom: 0; /* Remove bottom margin for inline elements */
+  }
+  .form-inline .form-group:last-child {
+    margin-right: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <form id="myForm" class="form-inline">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" name="phone">
+    </div>
+    <div class="form-group">
+      <input type="submit" value="提交">
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单默认提交行为
+
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+
+    // 邮箱正则表达式 (一个基础的验证)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // 手机号正则表达式 (例如：中国大陆11位手机号, 以1开头)
+    const phoneRegex = /^1[3-9]\d{9}$/;
+
+    let errorMessages = [];
+
+    if (email === '' && phone === '') {
+        // 如果两者都为空，可以提示用户至少填写一项，或者按照UI的“表单填写错误”
+        // 为了与UI图片中的 "表单填写错误" 对齐，如果需要更具体的提示，则需要修改此逻辑
+        alert("此页面显示\n表单填写错误");
+        return;
+    }
+
+
+    if (email !== '' && !emailRegex.test(email)) {
+      errorMessages.push("邮箱格式填写错误");
+    }
+
+    if (phone !== '' && !phoneRegex.test(phone)) {
+      errorMessages.push("手机号格式填写错误");
+    }
+
+    if (errorMessages.length > 0) {
+      // 根据UI图片，如果只有一个错误，也显示 "表单填写错误"
+      // 如果希望显示具体的错误，可以用 errorMessages.join('\n')
+      // 但UI图片显示的是通用的 "表单填写错误"
+      // 为了更贴近用户要求的"手机号或者邮箱格式填写错误"，这里做个判断
+      if (errorMessages.includes("邮箱格式填写错误") && errorMessages.includes("手机号格式填写错误")) {
+        alert("此页面显示\n邮箱和手机号格式均填写错误");
+      } else if (errorMessages.includes("邮箱格式填写错误")) {
+        alert("此页面显示\n邮箱格式填写错误");
+      } else if (errorMessages.includes("手机号格式填写错误")) {
+        alert("此页面显示\n手机号格式填写错误");
+      }
+      // 如果需要完全匹配UI中的 "表单填写错误" 弹窗，则使用下面这行：
+      // alert("此页面显示\n表单填写错误");
+    } else if (email === '' || phone === '') {
+        // 如果其中一个为空，但另一个格式正确（或者也为空但前面已处理）
+        // 这种情况可以定义为表单未完整填写，也可能属于“表单填写错误”
+        // 根据需求，可以不提示，或者提示特定字段必填
+        // 若要求必须两者都填且正确，则可以在这里添加逻辑
+        // 当前逻辑是：只要填了，就必须格式正确。如果一个为空，一个格式正确，则不报错
+        // 如果两者都通过或者只有一个填写且格式正确
+        if (errorMessages.length === 0 && (email !== '' || phone !== '')) {
+             // alert("表单提交成功！"); // 如果验证通过，可以提示成功或实际提交表单
+        }
+
+    } else {
+      // 如果所有验证都通过 (即两个都填写且格式都正确)
+      alert("表单提交成功！"); // 这里可以替换为实际的表单提交逻辑
+      // this.submit(); // 如果要实际提交表单，取消这行注释
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿Build started 2025-04-18 9:56:40.
+     1>Project "D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\MASM_FP1\MASM_FP1.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\MASM_FP1.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\MASM_FP1.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt MASM_FP1.cpp
+         MASM_FP1.cpp
+       Link:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Release\MASM_FP1.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\MASM_FP1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Release\MASM_FP1.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Release\MASM_FP1.lib" /MACHINE:X86 Release\MASM_FP1.obj
+         Release\stdafx.obj
+         Generating code
+         Finished generating code
+         MASM_FP1.vcxproj -> D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Release\MASM_FP1.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Release\MASM_FP1.exe;#1" /manifest Release\MASM_FP1.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\MASM_FP1.unsuccessfulbuild".
+         Touching "Release\MASM_FP1.lastbuildstate".
+     1>Done Building Project "D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\MASM_FP1\MASM_FP1.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.43

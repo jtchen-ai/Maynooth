@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子时钟</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #clock-container {
+            background-color: #38d63d; /* 浅绿色背景 */
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border: 10px solid #b88142; /* 棕色边框 */
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            color: #000000; /* 黑色字体 */
+        }
+    </style>
+</head>
+<body>
+    <div id="clock-container">
+        <span id="clock"></span>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // 月份是从0开始的
+            const day = now.getDate();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // 格式化时间，确保数字是两位数
+            const formattedHours = hours < 10 ? '0' + hours : hours;
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+            const timeString = `${year}年${month}月${day}日${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        // 初始调用一次以立即显示时间
+        updateClock();
+
+        // 每秒更新一次时间
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

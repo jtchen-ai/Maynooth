@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气新闻 - 北方高温明日达鼎盛</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif; /* 更常用的中文字体栈 */
+            line-height: 1.8; /* 增加行高提升可读性 */
+            max-width: 800px; /* 限制内容最大宽度 */
+            margin: 20px auto; /* 页面居中并添加上下边距 */
+            padding: 0 15px;   /* 左右添加内边距，防止内容贴边 */
+            background-color: #fff; /* 白色背景 */
+            color: #333; /* 主要文字颜色 */
+        }
+
+        h1 {
+            font-size: 2em; /* 主标题字体大小 */
+            font-weight: bold;
+            color: #111; /* 深黑色标题 */
+            text-align: center; /* 标题居中 */
+            margin-top: 1em;
+            margin-bottom: 0.2em; /* 减小与下方元信息的间距 */
+            line-height: 1.3;
+        }
+
+        .metadata {
+            font-size: 0.85em; /* 元信息字体稍小 */
+            color: #888; /* 灰色文字 */
+            text-align: center; /* 居中 */
+            margin-bottom: 2em; /* 与下方正文的间距 */
+        }
+
+        .metadata a { /* 如果来源是链接 */
+             color: #007bff; /* 修改为蓝色 */
+             text-decoration: none;
+        }
+         .metadata a:hover {
+             text-decoration: underline;
+         }
+
+        p {
+            font-size: 1em; /* 标准段落字体大小 */
+            margin-bottom: 1.2em; /* 段落间距 */
+            text-align: justify; /* 尝试两端对齐，如果效果不好可改回 left */
+        }
+
+        /* 用于图片和图注的容器 */
+        figure {
+            margin: 2em 0; /* 上下外边距 */
+            padding: 0;
+            text-align: center; /* 图片和图注居中 */
+        }
+
+        figure img {
+            max-width: 100%; /* 图片最大宽度为容器宽度 */
+            height: auto; /* 高度自动 */
+            /* 可以设置一个具体的最大宽度，比如 max-width: 650px; */
+            display: block; /* 确保图片是块级元素 */
+            margin: 0 auto 10px auto; /* 图片居中，并与下方图注留有间距 */
+        }
+
+        figcaption {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* 用于强调性的小标题或段落 */
+        .emphasis-block {
+            font-weight: bold;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            /* 可以根据需要调整字体大小或颜色 */
+            /* font-size: 1.1em; */
+        }
+
+        /* 文末来源和编辑信息 */
+        .source-footer {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 3em;
+            border-top: 1px solid #eee; /* 添加一个细分隔线 */
+            padding-top: 1em;
+            text-align: right; /* 靠右显示 */
+        }
+
+        /* 响应式调整 (可选) */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.6em;
+            }
+            p {
+                font-size: 0.95em;
+                text-align: left; /* 小屏幕上左对齐可能更好 */
+            }
+             .metadata, figcaption, .source-footer {
+                 font-size: 0.8em;
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <article>
+        <h1>北方高温明日达鼎盛 京津冀多地地表温度将超60℃</h1>
+
+        <p class="metadata">
+            2019-07-03 16:31:47 来源：<a href="D:\梅努斯\WEB\第一次-实验题目及素材\实验题目及素材\3-新闻界面素材\t1.html
+
+            ">中国天气网</a>
+        </p>
+
+        <p>中国天气网讯 今天（3日），华北、黄淮多地出现高温天气，截至下午2点，北京、天津、郑州等地气温突破35℃。预报显示，今后三天（3-5日），这一带的高温天气仍继续发酵，高温范围以及强度将在4日达到鼎盛，预计北京、天津、石家庄、济南等地明天的最高气温有望突破38℃，其中北京和石家庄的最高气温还有望创今年以来的新高。</p>
+
+        <p class="emphasis-block">气温41.4℃！地温66.5！北京强势迎七月首个高温日</p>
+
+        <p>今天，华北、黄淮一带的高温持续发酵，截至今天下午2点，陕西南部、山西西南部、河北南部、北京、天津、山东西部、河南北部最高气温已普遍超过35℃。大城市中，北京、天津、郑州均均迎来高温日。</p>
+
+        <figure>
+            <!-- 注意：请将 src 替换为实际有效的图片路径 -->
+            <img src="D:\梅努斯\WEB\第一次-实验题目及素材\实验题目及素材\3-新闻界面素材\images\pic.jpeg" alt="07月03日14时地面自动观测站气温图">
+            <figcaption>07月03日14时地面自动观测站气温</figcaption>
+        </figure>
+
+        <p>在阳光暴晒下，地表温度也逐渐走高，今天下午2点，华北黄淮大部地区的地表温度都在50℃以上，部分地区地表温度甚至超过60℃。其中，河北衡水地表温度高达68.3℃，天津站和北京站附近的地表温度分别达66.6℃和66.5℃。</p>
+
+        <p class="emphasis-block">明日热度再升级！京津冀携手冲击38℃+</p>
+
+        <p>中国天气网首席分析师王伟跃介绍，明天（4日），华北、黄淮地区35℃以上的高温天气还将继续升级，并进入鼎盛阶段，高温强度和范围都将发展到最强。明天，北京南部、天津大部、河北中南部和南部、山东中部和西部、山西南部局地、河南北部、东北部分地区的最高气温都将达到或超过35℃。</p>
+
+        <p>不过，专家提醒，所幸被雨水天气完美绕开，因此未来一周，当地的高温还会天天上岗。在此提醒当地居民注意防暑降温，防范持续高温带来的各种不利影响。（文/张慧 数据支持/王伟跃 胡啸 审核/刘文静 张方丽）</p>
+
+        <p class="source-footer">
+            本文来源：中国天气网 责任编辑：刘环_NOS631
+        </p>
+
+    </article>
+
+</body>
+</html>

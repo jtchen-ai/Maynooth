@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLibrary - 图书馆信息</title>
+    <style>
+        /* CSS Reset and Basic Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 20px 10px;
+        }
+
+        header h1 {
+            color: #007bff;
+            margin: 0;
+            font-size: 36px;
+        }
+
+        header p {
+            margin: 5px 0 0 5px;
+            color: #666;
+            font-style: italic;
+        }
+
+        hr {
+            border: 0;
+            border-top: 2px solid #007bff;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: flex;
+        }
+
+        /* Left Navigation */
+        nav {
+            width: 200px;
+            flex-shrink: 0;
+            padding: 10px;
+        }
+
+        .nav-menu input[type="checkbox"] {
+            display: none;
+        }
+
+        .nav-group-label, .nav-item-single {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin-top: -1px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .nav-group-label:before, .nav-item-single:before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            background: url('实验八题目2图片/plus.png') no-repeat center center;
+        }
+
+        .nav-item-single:before {
+            background: url('实验八题目2图片/sub.png') no-repeat center center;
+        }
+
+
+        .nav-sub-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .nav-sub-menu a {
+            display: block;
+            padding: 10px 10px 10px 25px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            margin-top: -1px;
+        }
+
+        /* Accordion Logic */
+        .nav-menu input[type="checkbox"]:checked + .nav-group-label {
+            background-color: #d4e8ff;
+        }
+        
+        .nav-menu input[type="checkbox"]:checked + .nav-group-label:before {
+            background: url('实验八题目2图片/sub.png') no-repeat center center;
+        }
+
+        .nav-menu input[type="checkbox"]:checked ~ .nav-sub-menu {
+            max-height: 500px;
+        }
+        
+        .nav-sub-menu a.active, .nav-group-label.active, .nav-item-single.active {
+            background-color: #d4e8ff;
+        }
+
+
+        /* Right Content Area */
+        main {
+            flex-grow: 1;
+            padding: 10px 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .content-title {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        .library-form {
+            border: none;
+            padding: 40px 30px 20px 30px;
+            background: url('实验八题目2图片/libset.png') no-repeat;
+            background-size: 100% 100%;
+            padding-top: 70px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            width: 120px;
+            text-align: right;
+            padding-right: 10px;
+            font-weight: bold;
+        }
+
+        .form-row input[type="text"] {
+            width: 250px;
+            height: 30px;
+            border: 1px solid #999;
+            padding: 0 10px;
+            background: url('实验八题目2图片/login_input.png') repeat-x;
+            background-size: cover;
+            border-radius: 15px;
+        }
+        
+        .form-row input[type="text"]:disabled {
+            color: #555;
+            opacity: 0.7; /* Add opacity to indicate disabled state */
+        }
+
+        .form-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .form-buttons button {
+            width: 80px;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+            color: transparent; /* Hide text, show background image */
+            background-size: contain;
+        }
+        
+        #editBtn {
+            background: url('实验八题目2图片/edit_default.png') no-repeat center;
+        }
+        #editBtn:active {
+            background: url('实验八题目2图片/edit_click.png') no-repeat center;
+        }
+
+        #saveBtn {
+            background: url('实验八题目2图片/save_default.png') no-repeat center;
+        }
+         #saveBtn:active {
+            background: url('实验八题目2图片/save_click.png') no-repeat center;
+        }
+
+
+        #cancelBtn {
+            margin-left: 20px;
+            background: url('实验八题目2图片/cancel_default.png') no-repeat center;
+        }
+        #cancelBtn:active {
+            background: url('实验八题目2图片/cancel_click.png') no-repeat center;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BookLibrary</h1>
+            <p>-- the place for your starting and relaxing !</p>
+        </header>
+        <hr>
+        <div class="main-content">
+            <nav>
+                <div class="nav-menu">
+                    <!-- 系统设置 -->
+                    <div class="nav-group">
+                        <input type="checkbox" id="nav-system">
+                        <label class="nav-group-label" for="nav-system">系统设置</label>
+                        <div class="nav-sub-menu">
+                            <a href="#" class="active">图书馆信息设置</a>
+                            <a href="#">管理员设置</a>
+                            <a href="#">参数设置</a>
+                            <a href="#">书架设置</a>
+                        </div>
+                    </div>
+                     <!-- 读者管理 -->
+                    <div class="nav-group">
+                        <input type="checkbox" id="nav-reader">
+                        <label class="nav-group-label" for="nav-reader">读者管理</label>
+                        <div class="nav-sub-menu">
+                            <a href="#">读者类型管理</a>
+                            <a href="#">读者信息管理</a>
+                        </div>
+                    </div>
+                     <!-- 图书管理 -->
+                    <div class="nav-group">
+                        <input type="checkbox" id="nav-book">
+                        <label class="nav-group-label" for="nav-book">图书管理</label>
+                        <div class="nav-sub-menu">
+                           <a href="#">图书信息管理</a>
+                           <a href="#">图书类型设置</a>
+                        </div>
+                    </div>
+                    <!-- 图书借还 -->
+                    <a href="#" class="nav-item-single">图书借还</a>
+                    <!-- 系统查询 -->
+                     <a href="#" class="nav-item-single">系统查询</a>
+                    <!-- 个人设置 -->
+                     <a href="#" class="nav-item-single">个人设置</a>
+                    <!-- 退出系统 -->
+                     <a href="#" class="nav-item-single">退出系统</a>
+                </div>
+            </nav>
+            <main>
+                <div class="breadcrumb">
+                    当前位置: <a href="#">首页</a> >> <a href="#">系统设置</a> >> 图书馆信息
+                </div>
+                <div class="content-title">
+                    图书馆信息
+                </div>
+                <form>
+                    <fieldset id="libraryForm" class="library-form">
+                        <div class="form-row">
+                            <label for="libName">图书馆名称:</label>
+                            <input type="text" id="libName" value="有个图书馆">
+                        </div>
+                        <div class="form-row">
+                            <label for="director">馆长:</label>
+                            <input type="text" id="director" value="SmallQQSir">
+                        </div>
+                        <div class="form-row">
+                            <label for="phone">联系电话:</label>
+                            <input type="text" id="phone" value="123XXX">
+                        </div>
+                        <div class="form-row">
+                            <label for="address">联系地址:</label>
+                            <input type="text" id="address" value="福建省福州市闽侯县">
+                        </div>
+                         <div class="form-row">
+                            <label for="email">联系邮箱:</label>
+                            <input type="text" id="email" value="123456@163.com">
+                        </div>
+                         <div class="form-row">
+                            <label for="website">图书馆网址:</label>
+                            <input type="text" id="website" value="www.有个图书馆.lib">
+                        </div>
+                         <div class="form-row">
+                            <label for="creationDate">建馆时间:</label>
+                            <input type="text" id="creationDate" value="2012-1-1">
+                        </div>
+                        <div class="form-buttons">
+                            <button type="button" id="editBtn">编辑</button>
+                            <button type="button" id="saveBtn" style="display: none;">保存</button>
+                            <button type="button" id="cancelBtn">取消</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </main>
+        </div>
+    </div>
+    <footer>
+        copyright by smallQQSir @2017
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fieldset = document.getElementById('libraryForm');
+            const textInputs = fieldset.querySelectorAll('input[type="text"]');
+            const editBtn = document.getElementById('editBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            let originalValues = {};
+
+            function storeOriginalValues() {
+                textInputs.forEach(input => {
+                    originalValues[input.id] = input.value;
+                });
+            }
+
+            function restoreOriginalValues() {
+                 textInputs.forEach(input => {
+                    input.value = originalValues[input.id];
+                });
+            }
+            
+            function setFormEditable(isEditable) {
+                textInputs.forEach(input => {
+                    input.disabled = !isEditable;
+                });
+                editBtn.style.display = isEditable ? 'none' : 'inline-block';
+                saveBtn.style.display = isEditable ? 'inline-block' : 'none';
+            }
+
+            // Set initial state
+            storeOriginalValues();
+            setFormEditable(false); // Start in non-editable state
+
+            // --- Event Listeners for form buttons ---
+            editBtn.addEventListener('click', function() {
+                setFormEditable(true);
+            });
+
+            saveBtn.addEventListener('click', function() {
+                storeOriginalValues(); // "Save" the new values
+                setFormEditable(false);
+            });
+
+            cancelBtn.addEventListener('click', function() {
+                restoreOriginalValues(); // Revert to original values
+                setFormEditable(false);
+            });
+            
+            // --- Navigation Menu Click Highlight Logic ---
+            const allLinks = document.querySelectorAll('.nav-sub-menu a, .nav-item-single');
+            allLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); 
+                    
+                    document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const parentGroup = this.closest('.nav-group');
+                    if (parentGroup) {
+                       const parentLabel = parentGroup.querySelector('.nav-group-label');
+                       if(parentLabel) {
+                           parentLabel.classList.add('active');
+                       }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

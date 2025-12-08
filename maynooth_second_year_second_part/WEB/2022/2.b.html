@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Table Layout</title>
+<style>
+    /* Optional CSS for better appearance, matching the image */
+    table {
+        border-collapse: collapse; /* Merges borders into a single line */
+        width: 400px;
+        text-align: center;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    ul {
+        list-style-position: inside; /* Keeps bullets inside the cell */
+        text-align: left;
+        margin: 0;
+        padding-left: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Table Implementation</h2>
+
+<table>
+  <tr>
+    <th>Row1</th>
+    <th>Row2</th>
+    <th>Row3</th>
+  </tr>
+
+  <tr>
+    <td rowspan="2">
+      <ul>
+        <li>Coffee</li>
+        <li>Milk</li>
+      </ul>
+    </td>
+    <td>Col2row1</td>
+    <td>Col2row3</td>
+  </tr>
+
+  <tr>
+    <td>Col3row1</td>
+    <td>Col3row3</td>
+  </tr>
+
+  <tr>
+    <td colspan="3">Col4</td>
+  </tr>
+
+</table>
+
+</body>
+</html>

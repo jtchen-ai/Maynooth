@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>购物车</title>
+<style>
+  html {
+    height: 100%;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f7f9;
+    color: #333;
+    display: flex; /* Body is flex to allow cart-container to be centered */
+    flex-direction: column; /* Not strictly necessary if cart-container doesn't grow */
+    /* min-height: 100%; /* Keep this if you want body to fill viewport height */
+  }
+  .cart-container {
+    max-width: 1000px;
+    width: 95%;
+    margin: 20px auto; /* This will center the container */
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    /* flex-grow: 1; */ /* REMOVED: Allows container to shrink to content */
+    display: flex;
+    flex-direction: column;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  tbody {
+    /* flex-grow: 1; */ /* REMOVED: Table body should take natural height */
+  }
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9eff3;
+  }
+  th {
+    background-color: #f8f9fa; /* Adjusted: Lighter, more neutral header */
+    font-weight: 600;
+    color: #004085; /* Adjusted: Darker blue for header text */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-size: 0.9em;
+  }
+  td {
+    vertical-align: middle;
+    font-size: 0.9em;
+  }
+
+  #cartTableBody tr:hover {
+    background-color: #e6f7ff;
+  }
+
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 15px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+  }
+  .product-name {
+    font-size: 1em;
+    color: #454545;
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dddddd; /* Adjusted: Lighter gray border */
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .quantity-btn {
+    background-color: #fff; /* Adjusted: White background to blend */
+    border: none;
+    color: #555;
+    cursor: pointer;
+    padding: 6px 9px; /* Adjusted: Slightly more compact padding */
+    font-size: 1.1em;   /* Adjusted: Slightly larger symbols for +/- */
+    line-height: 1;   /* Adjusted: For better symbol centering */
+  }
+  .quantity-btn:hover {
+    background-color: #f0f0f0;
+  }
+  .quantity-input {
+    width: 35px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #dddddd;  /* Adjusted: Separator color matches outer */
+    border-right: 1px solid #dddddd; /* Adjusted: Separator color matches outer */
+    padding: 7px 0; /* Adjusted: Vertical padding to align with buttons */
+    font-size: 0.9em;
+    height: auto;
+    box-sizing: border-box;
+    line-height: 1.2; /* Keep as is, or adjust if needed for vertical centering */
+    background-color: #fff; /* Ensure background is white */
+  }
+  .quantity-input::-webkit-outer-spin-button,
+  .quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .quantity-input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .subtotal {
+    color: #e53935;
+    font-weight: bold;
+    font-size: 1em;
+  }
+  .delete-btn {
+    color: #337ab7;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+  }
+  .delete-btn:hover {
+    text-decoration: underline;
+    color: #23527c;
+  }
+
+  .cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9em;
+  }
+  .footer-actions {
+    display: flex;
+    align-items: center;
+  }
+  .footer-actions label {
+    margin-right: 10px;
+    color: #555;
+  }
+  .footer-actions .delete-selected-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px;
+  }
+  .footer-actions .delete-selected-btn:hover {
+    background-color: #c9302c;
+  }
+  .cart-summary {
+    display: flex;
+    align-items: center;
+  }
+  .cart-summary span {
+    margin-right: 15px;
+    color: #555;
+  }
+  .total-price {
+    color: #e53935;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .checkout-btn {
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+  }
+  .checkout-btn:hover {
+    background-color: #ec971f;
+  }
+  input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  #selectedItemsCountTrigger { /* "已选商品X件" 样式 */
+    cursor: pointer;
+    color: #337ab7; /* Standard link blue, matches "删除" and "全选" text color in UI */
+    text-decoration: none; /* No underline by default */
+    /* font-size and font-weight will be inherited from .cart-summary span, which is fine */
+  }
+  #selectedItemsCountTrigger:hover {
+    text-decoration: underline; /* Underline on hover, standard link behavior */
+  }
+
+  /* --- 模态框样式 (基本保持不变) --- */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  .modal-content {
+    position: absolute;
+    background-color: #fff;
+    max-height: 35vh;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    pointer-events: auto;
+  }
+  .modal-close-btn {
+    color: #888;
+    position: absolute;
+    top: 8px; right: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .modal-close-btn:hover { color: #555; }
+  .modal-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #333;
+    padding-right: 30px;
+    font-weight: 500;
+  }
+  .modal-product-list {
+    list-style-type: none; padding: 0; display: flex;
+    flex-wrap: wrap; gap: 10px; align-items: stretch;
+  }
+  .modal-product-item {
+    position: relative; cursor: pointer; border: 1px solid #eee;
+    padding: 5px; background-color: #fff; border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-grow: 1; min-width: 75px; height: auto;
+  }
+  .modal-product-item img {
+    max-width: 100%; max-height: 70px;
+    object-fit: contain; display: block;
+  }
+  .modal-deselect-chip {
+    position: absolute; top: 2px; right: 2px;
+    background-color: rgba(0, 0, 0, 0.7); color: white;
+    padding: 1px 4px; font-size: 9px;
+    border-radius: 2px; line-height: 1.2; z-index: 10;
+    opacity: 0; transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+  }
+  .modal-product-item:hover .modal-deselect-chip {
+    opacity: 1; pointer-events: auto;
+  }
+  .modal-empty-message {
+    text-align: center; color: #777; padding: 20px; width: 100%;
+  }
+
+  /* Responsive adjustments (保持不变) */
+  @media (max-width: 768px) {
+    .cart-container { width: 100%; margin: 0; border-radius: 0;}
+    th, td { padding: 10px; }
+    .product-image { width: 40px; height: 40px; margin-right: 10px;}
+    .cart-footer { flex-direction: column; align-items: stretch; padding: 10px;}
+    .footer-actions, .cart-summary { width: 100%; margin-bottom: 10px;}
+    .footer-actions { justify-content: space-between;}
+    .cart-summary { justify-content: space-between;}
+    .checkout-btn { flex-grow: 1; margin-left: 10px;}
+    .modal-content { max-height: 30vh; padding: 10px; }
+    .modal-title { font-size: 1em; margin-bottom: 10px; }
+  }
+  @media (max-width: 480px) {
+    th, td { font-size: 0.85em; }
+    .modal-product-item img { max-height: 55px; }
+    .modal-deselect-chip { font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HTML 和 JavaScript 保持不变 -->
+
+<div class="cart-container">
+  <table>
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAllTop" title="全选"> 全选</th>
+        <th>商品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="cartTableBody"></tbody>
+  </table>
+
+  <div class="cart-footer">
+    <div class="footer-actions">
+      <label><input type="checkbox" id="selectAllBottom" title="全选"> 全选</label>
+      <button class="delete-selected-btn">删除</button>
+    </div>
+    <div class="cart-summary">
+      <span id="selectedItemsCountTrigger" title="查看已选商品">已选商品0件</span>
+      <span>合计：<span id="totalPrice" class="total-price">¥0.00</span></span>
+      <button class="checkout-btn">结算</button>
+    </div>
+  </div>
+</div>
+
+<div id="selectedItemsModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close-btn" title="关闭">&times;</span>
+    <h3 class="modal-title">已选商品</h3>
+    <ul id="modalProductList" class="modal-product-list"></ul>
+    <div id="modalEmptyMessage" class="modal-empty-message" style="display:none;">
+      当前没有选中的商品。
+    </div>
+  </div>
+</div>
+
+<script>
+  let productsData = [ 
+    { id: 1, name: 'Casio/卡西欧 EX-TR350', price: 5999.88, imageSrc: 'images/1.jpg', quantity: 1, selected: true },
+    { id: 2, name: 'Canon/佳能 PowerShot SX50 HS', price: 3888.50, imageSrc: 'images/2.jpg', quantity: 1, selected: true },
+    { id: 3, name: 'Sony/索尼 DSC-WX300', price: 1428.50, imageSrc: 'images/3.jpg', quantity: 1, selected: true },
+    { id: 4, name: 'Fujifilm/富士 instax mini 25', price: 640.60, imageSrc: 'images/4.jpg', quantity: 1, selected: true },
+    { id: 5, name: 'Fujifilm/富士 Fujifilm Instax Mini 90 Neo Classic', price: 1728.00, imageSrc: 'images/5.jpg', quantity: 1, selected: true },
+    { id: 6, name: 'Fujifilm/富士 X-A1 微型单电相机', price: 2549.00, imageSrc: 'images/6.jpg', quantity: 1, selected: true },
+    { id: 7, name: 'Canon/佳能 FS406', price: 1200.00, imageSrc: 'images/7.jpg', quantity: 1, selected: true }
+  ];
+
+  const cartTableBody = document.getElementById('cartTableBody');
+  const selectAllTopCheckbox = document.getElementById('selectAllTop');
+  const selectAllBottomCheckbox = document.getElementById('selectAllBottom');
+  const selectedItemsCountTrigger = document.getElementById('selectedItemsCountTrigger');
+  const totalPriceSpan = document.getElementById('totalPrice');
+  const deleteSelectedBtn = document.querySelector('.delete-selected-btn');
+
+  const selectedItemsModal = document.getElementById('selectedItemsModal'); 
+  const modalContentElement = selectedItemsModal.querySelector('.modal-content'); 
+  const modalProductList = document.getElementById('modalProductList');
+  const modalCloseBtn = selectedItemsModal.querySelector('.modal-close-btn');
+  const modalEmptyMessage = document.getElementById('modalEmptyMessage');
+
+  function renderProductRow(product) {
+    const row = document.createElement('tr');
+    row.dataset.productId = product.id;
+    row.innerHTML = `
+      <td><input type="checkbox" class="item-checkbox" ${product.selected ? 'checked' : ''}></td>
+      <td>
+        <img src="${product.imageSrc}" alt="${product.name}" class="product-image">
+        <span class="product-name">${product.name}</span>
+      </td>
+      <td>¥${product.price.toFixed(2)}</td>
+      <td>
+        <div class="quantity-controls">
+          <button class="quantity-btn decrease-qty" data-id="${product.id}">-</button>
+          <input type="number" class="quantity-input" value="${product.quantity}" min="1" data-id="${product.id}">
+          <button class="quantity-btn increase-qty" data-id="${product.id}">+</button>
+        </div>
+      </td>
+      <td class="subtotal">¥${(product.price * product.quantity).toFixed(2)}</td>
+      <td><a href="#" class="delete-btn" data-id="${product.id}">删除</a></td>
+    `;
+    return row;
+  }
+
+  function renderCart() {
+    cartTableBody.innerHTML = '';
+    productsData.forEach(product => cartTableBody.appendChild(renderProductRow(product)));
+    updateCartSummary();
+    addEventListenersToRows();
+    checkSelectAllStatus();
+  }
+
+  function updateRowSubtotal(productId) {
+    const product = productsData.find(p => p.id === productId);
+    if (!product) return;
+    const row = cartTableBody.querySelector(`tr[data-product-id="${productId}"]`);
+    if (row) row.querySelector('.subtotal').textContent = `¥${(product.price * product.quantity).toFixed(2)}`;
+  }
+
+  function updateCartSummary() {
+    let totalAmount = 0;
+    let totalSelectedItemsQuantity = 0; // 用于统计选中商品的总件数
+    let selectedProductTypesCount = 0; // 用于统计选中商品种类的数量
+
+    productsData.forEach(product => {
+      if (product.selected) {
+        totalAmount += product.price * product.quantity;
+        totalSelectedItemsQuantity += product.quantity; 
+        selectedProductTypesCount++; // 每有一个选中的商品种类，计数器加1
+      }
+    });
+    // 更新为您图片中的格式 “已选商品X件” - 这里X是商品种类数
+    // 如果您的图片中 "已选商品7件" 指的是7种商品都被选中，每种1件，那么下面的逻辑是对的
+    // 如果指的是所有选中商品的总数量，则用 totalSelectedItemsQuantity
+    selectedItemsCountTrigger.textContent = `已选商品${selectedProductTypesCount}件`; 
+    totalPriceSpan.textContent = `¥${totalAmount.toFixed(2)}`;
+  }
+
+  function checkSelectAllStatus() {
+    const allItemsSelected = productsData.length > 0 && productsData.every(p => p.selected);
+    const someItemsSelected = productsData.some(p => p.selected);
+    selectAllTopCheckbox.checked = allItemsSelected;
+    selectAllBottomCheckbox.checked = allItemsSelected;
+    selectAllTopCheckbox.indeterminate = !allItemsSelected && someItemsSelected;
+    selectAllBottomCheckbox.indeterminate = !allItemsSelected && someItemsSelected;
+  }
+
+  function addEventListenersToRows() {
+    cartTableBody.querySelectorAll('.item-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const product = productsData.find(p => p.id === parseInt(this.closest('tr').dataset.productId));
+        if (product) product.selected = this.checked;
+        updateCartSummary();
+        checkSelectAllStatus();
+      });
+    });
+    cartTableBody.querySelectorAll('.decrease-qty, .increase-qty').forEach(button => {
+      button.addEventListener('click', function() {
+        const productId = parseInt(this.dataset.id);
+        const product = productsData.find(p => p.id === productId);
+        if (!product) return;
+        const isDecrease = this.classList.contains('decrease-qty');
+        if (isDecrease && product.quantity > 1) product.quantity--;
+        else if (!isDecrease) product.quantity++;
+        this.closest('.quantity-controls').querySelector('.quantity-input').value = product.quantity;
+        updateRowSubtotal(productId);
+        if (product.selected) updateCartSummary();
+      });
+    });
+    cartTableBody.querySelectorAll('.quantity-input').forEach(input => {
+      input.addEventListener('change', function() {
+        const productId = parseInt(this.dataset.id);
+        let newQuantity = parseInt(this.value);
+        const product = productsData.find(p => p.id === productId);
+        if (product) {
+          if (isNaN(newQuantity) || newQuantity < 1) newQuantity = 1;
+          this.value = newQuantity; product.quantity = newQuantity;
+          updateRowSubtotal(productId);
+          if (product.selected) updateCartSummary();
+        }
+      });
+    });
+    cartTableBody.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('确定要删除此商品吗？')) {
+          productsData = productsData.filter(p => p.id !== parseInt(this.dataset.id));
+          renderCart();
+        }
+      });
+    });
+  }
+
+  selectAllTopCheckbox.addEventListener('change', function() {
+    const isChecked = this.checked;
+    selectAllBottomCheckbox.checked = isChecked;
+    selectAllTopCheckbox.indeterminate = false; selectAllBottomCheckbox.indeterminate = false;
+    productsData.forEach(p => p.selected = isChecked);
+    cartTableBody.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = isChecked);
+    updateCartSummary();
+  });
+  selectAllBottomCheckbox.addEventListener('change', function() {
+    const isChecked = this.checked;
+    selectAllTopCheckbox.checked = isChecked;
+    selectAllTopCheckbox.indeterminate = false; selectAllBottomCheckbox.indeterminate = false;
+    productsData.forEach(p => p.selected = isChecked);
+    cartTableBody.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = isChecked);
+    updateCartSummary();
+  });
+  deleteSelectedBtn.addEventListener('click', function() {
+    const selectedCount = productsData.filter(p => p.selected).length;
+    if (selectedCount === 0) {
+      alert('请先选择要删除的商品！'); return;
+    }
+    if (confirm(`确定要删除选中的 ${selectedCount} 类商品吗？`)) { 
+      productsData = productsData.filter(p => !p.selected);
+      renderCart();
+    }
+  });
+
+  function populateSelectedItemsModal() {
+    modalProductList.innerHTML = '';
+    const selectedProducts = productsData.filter(p => p.selected);
+
+    if (selectedProducts.length === 0) {
+      modalEmptyMessage.style.display = 'block';
+      modalProductList.style.display = 'none';
+    } else {
+      modalEmptyMessage.style.display = 'none';
+      modalProductList.style.display = 'flex';
+      selectedProducts.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('modal-product-item');
+        listItem.dataset.id = product.id;
+        listItem.innerHTML = `
+          <img src="${product.imageSrc}" alt="${product.name}">
+          <span class="modal-deselect-chip">取消选择</span>
+        `;
+        listItem.addEventListener('click', function(event) {
+          const productIdToDeselect = parseInt(this.dataset.id);
+          const productToDeselect = productsData.find(p => p.id === productIdToDeselect);
+          if (productToDeselect) {
+            productToDeselect.selected = false;
+            renderCart();
+            populateSelectedItemsModal();
+          }
+        });
+        modalProductList.appendChild(listItem);
+      });
+    }
+  }
+
+  selectedItemsCountTrigger.addEventListener('click', function() {
+    populateSelectedItemsModal();
+    const cartContainer = document.querySelector('.cart-container');
+    const cartFooter = document.querySelector('.cart-footer');
+    if (cartContainer && cartFooter && modalContentElement) {
+      const cartContainerRect = cartContainer.getBoundingClientRect();
+      const cartFooterRect = cartFooter.getBoundingClientRect();
+      modalContentElement.style.width = cartContainerRect.width + 'px';
+      modalContentElement.style.left = cartContainerRect.left + 'px';
+      modalContentElement.style.right = 'auto'; 
+      modalContentElement.style.margin = '0'; 
+      const spaceBetweenModalAndFooter = 8;
+      modalContentElement.style.bottom = (window.innerHeight - cartFooterRect.top + spaceBetweenModalAndFooter) + 'px';
+      modalContentElement.style.top = 'auto';
+      selectedItemsModal.style.display = 'block';
+    }
+  });
+
+  modalCloseBtn.addEventListener('click', () => {
+    selectedItemsModal.style.display = 'none';
+  });
+  selectedItemsModal.addEventListener('click', function(event) {
+    if (event.target === selectedItemsModal) {
+        selectedItemsModal.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+
+</body>
+</html>

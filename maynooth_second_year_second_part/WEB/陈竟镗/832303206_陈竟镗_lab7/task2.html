@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩色墨水扩散</title>
+    <style>
+        /* 确保 body 和 html 占满整个视口，并且没有边距 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止出现滚动条 */
+            height: 100%;
+            width: 100%;
+            background-color: #ffffff; /* 将背景设为白色，以更好地凸显彩色效果 */
+        }
+        /* 让画布显示为块级元素并占满其容器 */
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 这是我们的绘图区域 -->
+    <canvas id="inkCanvas"></canvas>
+
+    <script>
+        // 等待文档完全加载后再执行脚本
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('inkCanvas');
+            // 获取 2D 绘图上下文
+            const ctx = canvas.getContext('2d');
+
+            // 定义一个函数来设置画布大小，使其充满整个窗口
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            // 定义一个函数来在随机位置绘制一个彩色的“墨水点”
+            function drawInkSplat() {
+                // 生成在画布范围内的随机坐标
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                // 生成一个随机半径，让墨水点有大有小
+                const radius = Math.random() * 60 + 10; // 半径在 10 到 70 之间
+
+                // --- 实现随机颜色和透明度 ---
+                // 使用 Math.floor 和 Math.random 生成 0-255 之间的随机整数作为 R, G, B 值
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                // 生成一个随机的 alpha (透明度) 值，使其半透明以产生混合效果
+                const alpha = Math.random() * 0.5 + 0.2; // 透明度在 0.2 到 0.7 之间
+
+                // 组合成 RGBA 颜色字符串
+                const color = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
+                // 开始绘制路径
+                ctx.beginPath();
+                // 绘制一个完整的圆形
+                ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+                // 设置填充颜色为我们随机生成的 RGBA 颜色
+                ctx.fillStyle = color;
+                // 填充圆形
+                ctx.fill();
+            }
+
+            // 初始化时设置一次画布大小
+            resizeCanvas();
+
+            // 每隔 30 毫秒 (即 0.03 秒) 调用一次绘制函数
+            setInterval(drawInkSplat, 30);
+
+            // 当浏览器窗口大小改变时，重新调整画布大小
+            window.addEventListener('resize', resizeCanvas);
+        });
+    </script>
+</body>
+</html>

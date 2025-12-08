@@ -1,0 +1,38 @@
+<style>
+    /* 为了让 absolute 定位有参考，通常需要给父元素设置 relative */
+    body {
+        margin: 0; /* 清除 body 的默认 margin */
+        position: relative;
+    }
+
+    .rectangle1h {
+        background-color: green;
+        width: 100%;
+        height: 80px;
+    }
+
+    .square {
+        background-color: yellow;
+        width: 500px;
+        height: 500px;
+
+        /* --- 手动居中定位代码 --- */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .rectangle2h {
+        background-color: blue;
+        height: 60px;
+        width: 100%;
+        position: absolute; /* 这里也需要定位，否则会被居中的方块覆盖 */
+        bottom: 0;
+        left: 0;
+    }
+</style>
+
+<div class="rectangle1h"> header </div> 
+<div class="square"> content </div> 
+<div class="rectangle2h"> footer </div> 

@@ -1,0 +1,7 @@
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\obj\x86\Debug\Pong.Form1.resources
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\obj\x86\Debug\pong.Properties.Resources.resources
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\obj\x86\Debug\pong.csproj.GenerateResource.Cache
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\bin\Debug\pong.exe
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\bin\Debug\pong.pdb
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\obj\x86\Debug\pong.exe
+D:\梅努斯\计算机结构\labs\lab6\pong\pong\obj\x86\Debug\pong.pdb

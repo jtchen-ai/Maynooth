@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agn5_ex1.html</title>
+</head>
+<body>
+  <form action="action_page.html" method="post">
+    <!-- 性别单选 -->
+    <p>
+      Gender:
+      <input type="radio" id="male" name="gender" value="male">
+      <label for="male">Male</label>
+      <input type="radio" id="female" name="gender" value="female">
+      <label for="female">Female</label>
+      <input type="radio" id="female" name="gender1" value="female1">
+      <label for="female">Female1</label>
+    </p>
+
+    <!-- 文本输入 -->
+    <p>
+      Name:
+      <input type="text" name="name">
+    </p>
+
+    <!-- 下拉列表 -->
+    <p>
+      Select a car:
+      <select name="cars">
+        <option value="volvo">Volvo</option>
+        <option value="ford">Ford</option>
+        <option value="fiat">Fiat</option>
+        <option value="audi">Audi</option>
+      </select>
+    </p>
+
+    <!-- 多行文本 -->
+    <p>
+      Note:
+      <textarea name="note" rows="4" cols="50"></textarea>
+    </p>
+
+    <!-- 普通按钮 -->
+    <p>
+      <button type="button" onclick="alert('hello world');">
+        Click Me!
+      </button>
+    </p>
+
+    <!-- 提交按钮 -->
+    <p>
+      <input type="submit" value="Submit">
+    </p>
+  </form>
+</body>
+</html>

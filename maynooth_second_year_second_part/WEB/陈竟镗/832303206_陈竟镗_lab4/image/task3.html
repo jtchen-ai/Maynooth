@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淘宝登录页面</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Microsoft YaHei', 'SimSun', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f0f0; /* 更新了body的背景色，以便页脚的白色更突出 */
+        }
+
+        .top-bar {
+            background-color: white;
+            padding: 15px 50px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .taobao-logo {
+            width: 120px;
+            height: auto;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            background-image: url('D:\\梅努斯\\WEB\\第四次-实验题目\\实验题目\\image\\ad.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .login-container {
+            width: 380px;
+            background-color: #f7f7f7;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h3 {
+            font-size: 18px;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        .input-group .icon-wrapper {
+            padding: 10px 12px;
+            border-right: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group .icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            flex-grow: 1;
+            border: none;
+            padding: 12px 10px;
+            font-size: 14px;
+            outline: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: #ff5000;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            background-color: #e04000;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .social-logins a,
+        .extra-links a {
+            color: #666;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .social-logins a:hover,
+        .extra-links a:hover {
+            color: #ff5000;
+        }
+
+        .social-logins .social-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+        .social-logins a:first-child{
+            margin-right: 15px;
+        }
+
+        .extra-links span {
+            color: #ccc;
+            margin: 0 5px;
+        }
+
+        /* 新增页脚链接区域样式 */
+        .site-links-footer {
+            background-color: #ffffff; /* 白色背景 */
+            padding: 20px 0; /* 上下内边距 */
+            text-align: center; /* 文本居中 */
+            border-top: 1px solid #e0e0e0; /* 顶部分隔线 */
+            font-size: 12px; /* 统一字体大小 */
+            line-height: 1.5;
+        }
+
+        .site-links-footer .links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-block; /* 使ul宽度自适应内容并能text-align:center */
+        }
+
+        .site-links-footer .links-list li {
+            display: inline; /* 使列表项水平排列 */
+            margin: 0 5px; /* 列表项之间的左右间距 */
+        }
+
+        .site-links-footer .links-list li a {
+            color: #666666; /* 链接文字颜色 */
+            text-decoration: none;
+        }
+
+        .site-links-footer .links-list li a:hover {
+            color: #ff5000; /* 鼠标悬停颜色 */
+            text-decoration: underline;
+        }
+
+        .site-links-footer .links-list .separator {
+            color: #cccccc; /* 分隔符颜色 */
+            margin: 0 3px; /* 分隔符与链接的间距 */
+            /* display: inline-block;  确保分隔符正确显示 */
+        }
+        /* 最后一个分隔符不需要显示 */
+        .site-links-footer .links-list li:last-child .separator {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\taobaologo.png" alt="淘宝网" class="taobao-logo">
+    </div>
+
+    <div class="main-content">
+        <div class="login-container">
+            <h3>密码登录</h3>
+            
+            <div class="input-group">
+                <div class="icon-wrapper">
+                    <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\user.png" alt="用户图标" class="icon">
+                </div>
+                <input type="text" placeholder="会员名/手机号/邮箱">
+            </div>
+            
+            <div class="input-group">
+                <div class="icon-wrapper">
+                    <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\password.png" alt="密码图标" class="icon">
+                </div>
+                <input type="password" placeholder="请输入密码">
+            </div>
+            
+            <button class="login-button">登 录</button>
+            
+            <div class="form-footer">
+                <div class="social-logins">
+                    <a href="#">
+                        <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\weibo.png" alt="微博登录" class="social-icon">
+                        微博登录
+                    </a>
+                    <a href="#">
+                        <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\alipay.png" alt="支付宝登录" class="social-icon">
+                        支付宝登录
+                    </a>
+                </div>
+                <div class="extra-links">
+                    <a href="#">忘记密码</a>
+                    <span>|</span>
+                    <a href="#">免费注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="site-links-footer">
+        <ul class="links-list">
+            <li><a href="#">阿里巴巴集团</a><span class="separator">|</span></li>
+            <li><a href="#">阿里巴巴国际站</a><span class="separator">|</span></li>
+            <li><a href="#">阿里巴巴中国站</a><span class="separator">|</span></li>
+            <li><a href="#">全球速卖通</a><span class="separator">|</span></li>
+            <li><a href="#">淘宝网</a><span class="separator">|</span></li>
+            <li><a href="#">天猫</a><span class="separator">|</span></li>
+            <li><a href="#">聚划算</a><span class="separator">|</span></li>
+            <li><a href="#">一淘</a><span class="separator">|</span></li>
+            <li><a href="#">阿里妈妈</a><span class="separator">|</span></li>
+            <li><a href="#">淘宝旅行</a><span class="separator">|</span></li>
+            <li><a href="#">虾米</a><span class="separator">|</span></li>
+            <li><a href="#">阿里云计算</a><span class="separator">|</span></li>
+            <li><a href="#">云OS</a><span class="separator">|</span></li>
+            <li><a href="#">万网</a><span class="separator">|</span></li>
+            <li><a href="#">支付宝</a><span class="separator">|</span></li>
+            <li><a href="#">来往</a></li>
+            <!-- 注意：最后一个列表项后面不需要分隔符，CSS已处理 -->
+        </ul>
+    </footer>
+
+</body> 
+</html>

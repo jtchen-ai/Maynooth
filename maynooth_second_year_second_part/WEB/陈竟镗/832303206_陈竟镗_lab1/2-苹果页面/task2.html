@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>先进的移动体验</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* 优先使用系统默认字体 */
+            margin: 0;
+            padding: 40px 20px; /* 上下添加一些内边距 */
+            background-color: #f8f8f8; /* 设置浅灰色背景 */
+            text-align: center; /* 默认文本居中 */
+        }
+
+        .content-section {
+            max-width: 980px; /* 限制内容最大宽度，类似苹果官网风格 */
+            margin: 0 auto; /* 水平居中 */
+        }
+
+        h1 { /* 图片中的标题看起来更像 H2 或 H3，但这里用 H1 演示 */
+            font-size: 2.5em; /* 调整标题大小 */
+            font-weight: 600; /* 字体稍粗 */
+            color: #1d1d1f; /* 深灰色 */
+            margin-bottom: 0.5em;
+        }
+
+        p.description {
+            font-size: 1.1em; /* 描述文字大小 */
+            color: #555; /* 中灰色 */
+            line-height: 1.6;
+            max-width: 650px; /* 限制段落宽度使其更易读 */
+            margin: 0 auto 1.5em auto; /* 上下边距，左右自动居中 */
+        }
+
+        a.learn-more {
+            font-size: 1em;
+            color: #007aff; /* 苹果蓝 */
+            text-decoration: none; /* 去掉下划线 */
+            display: inline-block; /* 使其可以设置上下边距 */
+            margin-bottom: 3em; /* 与下方图片的间距 */
+        }
+
+        a.learn-more:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        img.product-image {
+            max-width: 100%; /* 图片最大宽度为容器宽度 */
+            height: auto; /* 高度自动，保持比例 */
+            display: block; /* 使其成为块级元素，方便控制边距 */
+            margin: 0 auto; /* 图片居中 */
+        }
+
+        /* 响应式调整：小屏幕 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            p.description {
+                font-size: 1em;
+                max-width: 90%; /* 允许段落更宽 */
+            }
+            a.learn-more {
+                margin-bottom: 2em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="content-section">
+        <h1>先进的移动体验，现更进一步。</h1>
+
+        <p class="description">
+            iPad mini 4 搭载的 iOS 9，是迄今更直观、先进、安全的移动操作系统。如果你感觉它似乎是为 iPad 量身定制的，那就对了。众多优化的 app，以及诸如 Slide Over、Split View 和画中画等全新功能，让你能够以强大而简单的方式完成更多任务。无论是一边回邮件一边查信息，还是一边看比赛一边准备提案提纲，iOS 9 都能帮助你让 iPad 物尽其用。
+        </p>
+
+        <a href="#" class="learn-more">进一步了解 iOS 9 ></a>
+
+        <!-- 产品图片 -->
+        <!-- 注意：这里的 src 仍然是本地路径，需要替换为有效的图片地址 -->
+        <img src="D:\梅努斯\WEB\第一次-实验题目及素材\实验题目及素材\2-苹果页面素材\img\1.jpg" alt="iPad mini 4 展示 iOS 9 功能" class="product-image">
+
+        <!-- 原始代码中的其他内容（如果需要保留，可以放在这里） -->
+        <!-- 
+        <p>苹果公司（Apple Inc.）是美国一家高科技公司...</p>
+        <p>由史蒂夫·乔布斯、史蒂夫·沃兹尼亚克和罗纳德·韦恩于1976年创立...</p>
+        <p>知名产品包括Mac电脑、iPod音乐播放器、iPhone智能手机...</p> 
+        -->
+    </div>
+
+</body>
+</html>

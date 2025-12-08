@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嵌套Flexbox数字表格</title>
+    
+    <style>
+        /* 外部总容器 */
+        .nested-container {
+            width: 400px;
+            margin: 50px auto;
+            border: 2px solid darkred;
+            box-sizing: border-box;
+        }
+
+        /* “行”容器的基础样式 */
+        .row {
+            display: flex; /* 启用 Flexbox 布局 ,就是把一整行的格子均匀分割，横向排列，纵向是默认的block */ 
+            height: 60px;  /* 每一行的基础高度 */
+        }
+
+        /* 基础方块样式 */
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black;
+            box-sizing: border-box;
+            /* 默认情况下，让所有 box 均分所在 .row 的空间 */
+            flex: 1; 
+        }
+
+        /* --- 单独定义每个方块的颜色 --- */
+        .box-1, .box-2, .box-3, .box-4,.box-5,.box-51 { background-color: darkgreen; }
+        .box-6 { background-color: yellow; }
+        .box-7 { background-color: lightpink; }
+        .box-8 { background-color: lightgrey; }
+        .box-9 { background-color: black; color: white; }
+        .box-10 { background-color: lightblue; }
+        .box-11 { background-color: red; }
+        .box-12 { background-color: blue; color: white; }
+
+
+        /* --- 处理不等宽和跨行（核心） --- */
+
+        /* 第 2 行: box-6 占 3 份, box-7 占 2 份 */
+        .box-6 { flex-grow: 3; }
+        .box-7 { flex-grow: 2; }
+
+        /* 第 3 行: box-8 占 2 份, box-9 占 1 份 */
+        .box-8 { flex-grow: 2; }
+        .box-9 { flex-grow: 1; }
+
+        /* 第 4 行: box-11 充满它自己的行 */
+        .box-11 { flex-grow: 1; }
+
+        /* 第 3、4 行的特殊布局 */
+        .row-group-3-4 {
+            display: flex;  /* 内部的 left-column 和 box-10 左右排列 */
+            height: 120px; /* 两行的高度 */
+        }
+        .left-column {
+            display: flex;
+            flex-direction: column; /* 让内部的两个 .row 上下堆叠 */
+            flex-basis: 60%;      /* 占据 60% 的宽度 (3/5) */
+        }
+        /* box-10 占据剩余 40% 宽度，并自动撑满 120px 高度 */
+        .box-10 {
+            flex-basis: 40%; /* 占据 40% 的宽度 (2/5) */
+            height: auto;    /* 高度自动撑满父容器 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nested-container">
+        <div class="row">
+            <div class="box box-1">1</div>
+            <div class="box box-2">2</div>
+            <div class="box box-3">3</div>
+            <div class="box box-4">4</div>
+            <div class="box box-5">5</div>
+            <div class="box box-51">51</div>
+
+        </div>
+    
+        <div class="row">
+            <div class="box box-6">6</div>
+            <div class="box box-7">7</div>
+        </div>
+    
+        <div class="row-group-3-4">
+            <div class="left-column">
+                <div class="row">
+                    <div class="box box-8">8</div>
+                    <div class="box box-9">9</div>
+                </div>
+                <div class="row">
+                    <div class="box box-11">11</div>
+                </div>
+            </div>
+            <div class="box box-10">10</div>
+        </div>
+    
+        <div class="row">
+            <div class="box box-12">12</div>
+        </div>
+    </div>
+
+</body>
+</html>

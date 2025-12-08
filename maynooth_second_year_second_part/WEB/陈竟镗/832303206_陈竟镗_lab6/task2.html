@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九九乘法表</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif; /* 使用通用的无衬线字体 */
+            margin: 20px; /* 页面整体的边距，方便查看 */
+        }
+
+        #multiplicationTable {
+            display: flex; /* 使用 Flexbox 布局 */
+            flex-direction: column; /* 行（.row 元素）将垂直堆叠 */
+            align-items: flex-start; /* 行将从容器的左侧开始对齐 */
+            row-gap: 2px; /* 在行与行之间创建2像素的垂直间隙，实现“小小间隙” */
+        }
+
+        .row {
+            display: flex; /* 每行内的单元格（.cell 元素）也将使用 Flexbox 水平排列 */
+            column-gap: 2px; /* 在同一行内的单元格之间创建2像素的水平间隙，实现“小小间隙” */
+        }
+
+        .cell {
+            border: 1px solid black;  /* 每个单元格都有1像素的黑色边框 */
+            padding: 6px;             /* 单元格内部的统一内边距 (上下左右各6px) */
+            width: 80px;              /* 固定的单元格宽度，以实现“严格对齐”
+                                         估算: 内容 "9 * 9 = 81" (14px Arial字体大约66px宽) + 左右内边距 (6px+6px=12px) = 78px。
+                                         设置为80px可以保证内容完全显示并略有余地。*/
+            text-align: left;         /* 单元格内文本左对齐，与UI图片一致 */
+            white-space: nowrap;      /* 防止文本内容（如 "9 * 9 = 81"）换行 */
+            font-size: 14px;          /* 单元格内文字大小 */
+            line-height: 1.4;         /* 行高，改善文本的垂直间距和可读性 */
+            box-sizing: border-box;   /* 使 padding 和 border 的宽度包含在 'width' 属性定义的80px之内 */
+            background-color: white;  /* 单元格背景色为白色 */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="multiplicationTable">
+        </div>
+
+    <script>
+        // 获取将要容纳乘法表的容器元素
+        const tableContainer = document.getElementById('multiplicationTable');
+
+        // 外层循环，i 从 1 到 9，代表行号和乘法中的第一个数
+        for (let i = 1; i <= 9; i++) {
+            // 为当前行创建一个新的 div 元素
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row'; // 添加 'row' 类以便应用样式
+
+            // 内层循环，j 从 1 到 i，代表列号和乘法中的第二个数，并形成三角形状
+            for (let j = 1; j <= i; j++) {
+                // 为当前单元格创建一个新的 div 元素
+                const cellDiv = document.createElement('div');
+                cellDiv.className = 'cell'; // 添加 'cell' 类以便应用样式
+
+                // 设置单元格的文本内容，格式为 "i * j = 结果"
+                cellDiv.textContent = `${i} * ${j} = ${i * j}`;
+
+                // 将当前单元格追加到当前行中
+                rowDiv.appendChild(cellDiv);
+            }
+            // 将完成的当前行追加到乘法表容器中
+            tableContainer.appendChild(rowDiv);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLibrary - a place for your starting and relaxing !</title>
+    <style>
+        /* --- 通用样式 --- */
+        body {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 14px;
+            color: #000;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center; /* 页面内容居中 */
+        }
+
+        .container {
+            width: 800px; /* 根据截图目测宽度 */
+            margin: 20px auto;
+            text-align: left; /* 容器内文本左对齐 */
+        }
+
+        .blue-line {
+            border: none;
+            border-top: 1px solid #0066cc;
+            margin: 15px 0;
+        }
+
+        /* --- 头部样式 --- */
+        header h1 {
+            color: #0066cc;
+            font-size: 32px;
+            margin-bottom: 0;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        header p {
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* --- 导航栏样式 (已更新) --- */
+        nav {
+            font-size: 13px;
+            font-weight: bold;
+            color: #6d6d6d;
+        }
+        nav a, .nav-home {
+            text-decoration: underline;
+            color: #0066cc;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        nav .nav-home {
+            color: #6d6d6d; /* Home 默认颜色 */
+            text-decoration: none; /* Home 默认无下划线 */
+            margin-left: 0;
+        }
+        nav .nav-home:hover {
+            color: #0066cc; /* 鼠标悬浮时变为蓝色 */
+            text-decoration: underline;
+        }
+
+
+        /* --- 搜索区域 --- */
+        .search-section h2 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            height: 28px; /* 根据截图目测高度 */
+        }
+        
+        /* --- 自定义下拉菜单 --- */
+        .custom-dropdown-wrapper {
+            position: relative;
+            width: 150px;
+            height: 100%;
+            cursor: pointer;
+            background: url('img/select_up.png') no-repeat center center;
+            background-size: 100% 100%;
+        }
+        .custom-dropdown-wrapper.open {
+            background: url('img/select_down.png') no-repeat center center;
+            background-size: 100% 100%;
+        }
+
+        #selectedSearchType {
+            display: block;
+            line-height: 28px;
+            padding-left: 8px;
+            font-size: 12px;
+        }
+
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #000;
+            border-top: none;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            z-index: 10;
+            font-size: 12px;
+        }
+        .dropdown-options.show {
+            display: block;
+        }
+        
+        .dropdown-options li {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            cursor: pointer;
+        }
+        .dropdown-options li:hover {
+            background-color: #f0f0f0;
+        }
+        .custom-checkbox {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            background-image: url('img/checkbox_false.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .dropdown-options li.selected .custom-checkbox {
+            background-image: url('img/checkbox_true.png');
+        }
+
+
+        /* --- 文本输入框 (已更新) --- */
+        .search-input-wrapper {
+            flex-grow: 1;
+            height: 100%;
+            margin: 0 8px;
+            background: url('img/text_input.png') no-repeat center center;
+            background-size: 100% 100%;
+            display: flex;
+            align-items: center;
+        }
+        .search-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+            padding: 0 10px 0 45px; /* 光标位置已向右移动 */
+            box-sizing: border-box;
+        }
+        
+        /* --- 搜索按钮 --- */
+        .search-button {
+            width: 70px;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0;
+            background: url('img/search_btn_default.png') no-repeat center center;
+            background-size: 100% 100%;
+        }
+
+        .search-button:active {
+            background: url('img/search_btn_click.png') no-repeat center center;
+            background-size: 100% 100%;
+        }
+
+        /* --- 搜索结果表格 --- */
+        .results-section {
+            margin-top: 20px;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .results-table th, .results-table td {
+            padding: 8px;
+            text-align: center;
+            border: none;
+        }
+        .results-table th {
+            color: #000;
+            font-weight: bold;
+        }
+        .results-table td {
+            color: #666;
+        }
+        .results-table thead tr {
+             background-color: #ffffff !important;
+        }
+        .results-table tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        .results-table tbody tr:nth-child(even) {
+            background-color: #00bfff;
+            color: #fff;
+        }
+        .results-table tbody tr:nth-child(even) td {
+             color: #fff;
+        }
+        
+        /* --- 分页样式 --- */
+        .pagination {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        .pagination a {
+            text-decoration: underline;
+            color: #0066cc;
+            margin: 0 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>BookLibrary</h1>
+            <p>-- the place for your starting and relaxing !</p>
+            <hr class="blue-line">
+        </header>
+
+        <!-- 导航栏 HTML 已更新 -->
+        <nav>
+            <span class="nav-home">Home</span>|
+            <a href="#">login</a>|
+            <a href="#">register</a>|
+            <a href="#">aboutUs</a>
+        </nav>
+
+        <main>
+            <section class="search-section">
+                <h2>Search</h2>
+                <hr class="blue-line">
+                <div class="search-form">
+                    <div class="custom-dropdown-wrapper" id="searchTypeDropdown">
+                        <span id="selectedSearchType">searchBy bookTitle</span>
+                        <ul class="dropdown-options" id="searchOptions">
+                            <li class="selected" data-value="bookTitle">
+                                <span class="custom-checkbox"></span>
+                                <span>book Title</span>
+                            </li>
+                            <li data-value="bookISBN">
+                                <span class="custom-checkbox"></span>
+                                <span>book ISBN</span>
+                            </li>
+                             <li data-value="author">
+                                <span class="custom-checkbox"></span>
+                                <span>author</span>
+                            </li>
+                             <li data-value="press">
+                                <span class="custom-checkbox"></span>
+                                <span>press</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="search-input-wrapper">
+                         <input type="text" class="search-input" placeholder="web">
+                    </div>
+
+                    <button class="search-button" id="searchBtn"></button>
+                </div>
+            </section>
+            
+            <section class="results-section" id="searchResults"></section>
+        </main>
+        
+        <br><br>
+
+        <footer>
+            <hr class="blue-line">
+            <p style="text-align: center; font-size:12px; color:#6d6d6d;">copyright by smallQQSir @2017</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.getElementById('searchTypeDropdown');
+            const options = document.getElementById('searchOptions');
+            const selectedType = document.getElementById('selectedSearchType');
+            const searchBtn = document.getElementById('searchBtn');
+            const searchResultsContainer = document.getElementById('searchResults');
+
+            // 打开/关闭下拉菜单
+            dropdown.addEventListener('click', function(event) {
+                event.stopPropagation();
+                options.classList.toggle('show');
+                dropdown.classList.toggle('open');
+            });
+
+            // 点击下拉选项时的逻辑
+            options.addEventListener('click', function(event) {
+                const clickedLi = event.target.closest('li');
+                if (!clickedLi) return;
+
+                options.querySelectorAll('li').forEach(li => {
+                    li.classList.remove('selected');
+                });
+
+                clickedLi.classList.add('selected');
+                
+                const value = clickedLi.querySelector('span:last-child').textContent.trim();
+                const prefix = "searchBy "
+                selectedType.textContent = prefix + value;
+
+                options.classList.remove('show');
+                dropdown.classList.remove('open');
+            });
+
+            // 点击页面其他地方，关闭下拉列表
+            window.addEventListener('click', function() {
+                if (options.classList.contains('show')) {
+                    options.classList.remove('show');
+                    dropdown.classList.remove('open');
+                }
+            });
+            
+            // 点击搜索按钮显示结果
+            searchBtn.addEventListener('click', function() {
+                const resultsHTML = `
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>书名</th>
+                                <th>作者</th>
+                                <th>书架</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Java Web开发实战宝典</td>
+                                <td>王国辉</td>
+                                <td>左A-1</td>
+                                <td>借出</td>
+                            </tr>
+                            <tr>
+                                <td>Java Web开发实战宝典</td>
+                                <td>王国辉</td>
+                                <td>左A-1</td>
+                                <td>借出</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <a href="#">上一页</a>
+                        <a href="#">下一页</a>
+                    </div>
+                `;
+                searchResultsContainer.innerHTML = resultsHTML;
+            });
+        });
+    </script>
+
+</body>
+</html>

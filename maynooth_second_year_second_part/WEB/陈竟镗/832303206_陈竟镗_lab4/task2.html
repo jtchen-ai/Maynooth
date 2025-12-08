@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图片轮播</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: sans-serif;
+    }
+
+    .carousel-container {
+        width: 800px; /* 轮播图宽度，可调整 */
+        max-width: 90%; /* 响应式最大宽度 */
+        overflow: hidden;
+        position: relative;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .slides {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 500%; /* (100% / 5 images) * 5 = 500% */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+        width: 20%; /* 100% / 5 images = 20% */
+        flex-shrink: 0;
+    }
+
+    .slide img {
+        width: 100%;
+        display: block;
+        height: auto; /* 保持图片纵横比 */
+    }
+
+    /* 隐藏原始的 radio buttons */
+    .carousel-container input[type="radio"] {
+        display: none;
+    }
+
+    /* 导航点 */
+    .carousel-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        z-index: 2;
+    }
+
+    .carousel-dots label {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    /* 导航箭头 */
+    .carousel-arrows {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        z-index: 2;
+        pointer-events: none; /* 父容器不捕获点击，让label捕获 */
+    }
+
+    .carousel-arrows label {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 20px;
+        font-weight: bold;
+        user-select: none;
+        transition: background-color 0.3s ease;
+        pointer-events: auto; /* label可以捕获点击 */
+    }
+    .carousel-arrows label:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .carousel-arrows .prev-arrow {
+        margin-left: 15px;
+    }
+    .carousel-arrows .next-arrow {
+        margin-right: 15px;
+    }
+
+
+    /* CSS逻辑：当radio button被选中时，移动ul.slides */
+    #radio1:checked ~ .slides {
+        transform: translateX(0%);
+    }
+    #radio2:checked ~ .slides {
+        transform: translateX(-20%); /* 100% / 5 images = 20% per image */
+    }
+    #radio3:checked ~ .slides {
+        transform: translateX(-40%);
+    }
+    #radio4:checked ~ .slides {
+        transform: translateX(-60%);
+    }
+    #radio5:checked ~ .slides {
+        transform: translateX(-80%);
+    }
+
+    /* 更新导航点的激活状态 */
+    #radio1:checked ~ .carousel-dots label[for="radio1"],
+    #radio2:checked ~ .carousel-dots label[for="radio2"],
+    #radio3:checked ~ .carousel-dots label[for="radio3"],
+    #radio4:checked ~ .carousel-dots label[for="radio4"],
+    #radio5:checked ~ .carousel-dots label[for="radio5"] {
+        background-color: #3498db; /* 激活点的颜色 */
+        border-color: #2980b9;
+    }
+
+    /* 箭头逻辑 */
+    /* 当第一张图显示时，"上一张" 箭头指向最后一张 */
+    #radio1:checked ~ .carousel-arrows label[for="radio5"].prev-arrow-logic { display: block; }
+    #radio1:checked ~ .carousel-arrows label[for="radio2"].next-arrow-logic { display: block; }
+
+    /* 当第二张图显示时 */
+    #radio2:checked ~ .carousel-arrows label[for="radio1"].prev-arrow-logic { display: block; }
+    #radio2:checked ~ .carousel-arrows label[for="radio3"].next-arrow-logic { display: block; }
+
+    /* 当第三张图显示时 */
+    #radio3:checked ~ .carousel-arrows label[for="radio2"].prev-arrow-logic { display: block; }
+    #radio3:checked ~ .carousel-arrows label[for="radio4"].next-arrow-logic { display: block; }
+
+    /* 当第四张图显示时 */
+    #radio4:checked ~ .carousel-arrows label[for="radio3"].prev-arrow-logic { display: block; }
+    #radio4:checked ~ .carousel-arrows label[for="radio5"].next-arrow-logic { display: block; }
+
+    /* 当第五张图显示时，"下一张" 箭头指向第一张 */
+    #radio5:checked ~ .carousel-arrows label[for="radio4"].prev-arrow-logic { display: block; }
+    #radio5:checked ~ .carousel-arrows label[for="radio1"].next-arrow-logic { display: block; }
+
+    /* 默认隐藏所有逻辑箭头，只有匹配的才显示 */
+    .carousel-arrows .prev-arrow-logic,
+    .carousel-arrows .next-arrow-logic {
+        display: none;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="carousel-container">
+    <!-- Radio buttons for slide control -->
+    <input type="radio" name="carousel-radio" id="radio1" checked>
+    <input type="radio" name="carousel-radio" id="radio2">
+    <input type="radio" name="carousel-radio" id="radio3">
+    <input type="radio" name="carousel-radio" id="radio4">
+    <input type="radio" name="carousel-radio" id="radio5">
+
+    <!-- Slides -->
+    <ul class="slides">
+        <li class="slide">
+            <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\fuzhou_1.jpg" alt="福州风光 1">
+        </li>
+        <li class="slide">
+            <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\fuzhou_2.jpg" alt="福州风光 2">
+        </li>
+        <li class="slide">
+            <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\fuzhou_3.jpg" alt="福州风光 3">
+        </li>
+        <li class="slide">
+            <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\fuzhou_4.jpg" alt="福州风光 4">
+        </li>
+        <li class="slide">
+            <img src="D:\梅努斯\WEB\第四次-实验题目\实验题目\image\fuzhou_5.jpg" alt="福州风光 5">
+        </li>
+    </ul>
+
+    <!-- Navigation Arrows -->
+    <div class="carousel-arrows">
+        <!-- Previous Arrows (logic handled by CSS) -->
+        <label for="radio5" class="prev-arrow prev-arrow-logic">&lt;</label> <!-- From 1 to 5 -->
+        <label for="radio1" class="prev-arrow prev-arrow-logic">&lt;</label> <!-- From 2 to 1 -->
+        <label for="radio2" class="prev-arrow prev-arrow-logic">&lt;</label> <!-- From 3 to 2 -->
+        <label for="radio3" class="prev-arrow prev-arrow-logic">&lt;</label> <!-- From 4 to 3 -->
+        <label for="radio4" class="prev-arrow prev-arrow-logic">&lt;</label> <!-- From 5 to 4 -->
+
+        <!-- Next Arrows (logic handled by CSS) -->
+        <label for="radio2" class="next-arrow next-arrow-logic">&gt;</label> <!-- From 1 to 2 -->
+        <label for="radio3" class="next-arrow next-arrow-logic">&gt;</label> <!-- From 2 to 3 -->
+        <label for="radio4" class="next-arrow next-arrow-logic">&gt;</label> <!-- From 3 to 4 -->
+        <label for="radio5" class="next-arrow next-arrow-logic">&gt;</label> <!-- From 4 to 5 -->
+        <label for="radio1" class="next-arrow next-arrow-logic">&gt;</label> <!-- From 5 to 1 -->
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="carousel-dots">
+        <label for="radio1"></label>
+        <label for="radio2"></label>
+        <label for="radio3"></label>
+        <label for="radio4"></label>
+        <label for="radio5"></label>
+    </div>
+</div>
+
+</body>
+</html>

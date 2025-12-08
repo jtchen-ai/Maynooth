@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Flexbox Layout</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    position:relative;
+    
+  }
+
+  .container {
+    display: flex; /* Establishes the flex container */
+    height: 100%;  /* Makes the container fill the full page height */
+  }
+
+  .left {
+    background-color: green;
+    width: 200px;
+    height:200px;
+  }
+
+  .main {
+    background-color: red;
+    flex: 1; /* Allows this element to grow and take up the remaining space */
+    height:200px;
+  }
+
+  .right {
+    background-color: pink;
+    width: 200px;
+    height:200px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">Left</div>
+    <div class="main">Mid</div>
+    <div class="right">Right</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+D:\梅努斯\计算机结构\labs\lab6\CIL\CIL\bin\Debug\CIL.exe
+D:\梅努斯\计算机结构\labs\lab6\CIL\CIL\bin\Debug\CIL.pdb
+D:\梅努斯\计算机结构\labs\lab6\CIL\CIL\obj\x86\Debug\CIL.exe
+D:\梅努斯\计算机结构\labs\lab6\CIL\CIL\obj\x86\Debug\CIL.pdb
+D:\梅努斯\计算机结构\labs\lab6\CIL\CIL\obj\x86\Debug\CIL.csprojResolveAssemblyReference.cache

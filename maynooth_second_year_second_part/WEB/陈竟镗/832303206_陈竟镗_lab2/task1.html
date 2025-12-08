@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: 'SimSun', 'Songti SC', 'Microsoft YaHei', sans-serif; /* Common Chinese fonts */
+            margin: 20px;
+            background-color: #f4f4f4; /* Light grey background for contrast */
+        }
+
+        /* Main table container */
+        .resume-table {
+            width: 100%;
+            max-width: 800px; /* Maximum width for larger screens */
+            margin: 0 auto; /* Center the table on the page */
+            border-collapse: collapse; /* Collapse borders into a single line */
+            border: 1px solid #333; /* Outer border for the table */
+            background-color: #fff; /* White background for the table */
+            font-size: 14px; /* Base font size */
+            table-layout: fixed; /* Helps ensure column widths are respected */
+        }
+
+        /* Styling for all table cells (td) */
+        .resume-table td {
+            border: 1px solid #ccc; /* Internal cell borders */
+            padding: 8px; /* Padding inside cells */
+            height: 35px; /* Default cell height */
+            vertical-align: middle; /* Center content vertically */
+            word-wrap: break-word; /* Allow long words to break */
+        }
+
+        /* Styling for the label cells (first cell in most pairs/groups) */
+        .label {
+            background-color: #f2f2f2; /* Light grey background for labels */
+            font-weight: bold;
+            text-align: center; /* Center align label text */
+            white-space: nowrap; /* Prevent labels from wrapping unnecessarily */
+        }
+
+        /* Title cell styling */
+        .title {
+            font-size: 1.8em; /* Larger font size for the title */
+            font-weight: bold;
+            text-align: center;
+            padding: 15px 8px; /* More padding for the title */
+            border-bottom: 2px solid #333; /* Thicker border below title */
+            background-color: #fff; /* Ensure white background */
+            height: auto; /* Allow height to adjust */
+        }
+
+        /* Section header row styling */
+        .section-header td {
+            font-weight: bold;
+            text-align: left; /* Align section headers to the left */
+            padding: 5px 8px; /* Slightly less padding */
+            background-color: #e9e9e9; /* Slightly darker grey for section headers */
+            border-top: 2px solid #666; /* Thicker border above section headers */
+            height: auto; /* Allow height to adjust */
+        }
+
+         /* Specific styling for the header row within Personal Experience */
+        .experience-header td {
+            text-align: center;
+            font-weight: bold;
+            background-color: #f2f2f2; /* Match label background */
+        }
+
+        /* Self-evaluation cell styling */
+        .evaluation-cell {
+            height: 150px; /* Taller cell for evaluation */
+            vertical-align: top; /* Align text to the top */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            body {
+                margin: 5px;
+            }
+            .resume-table {
+                font-size: 12px; /* Smaller font on mobile */
+            }
+            .resume-table td {
+                padding: 5px; /* Less padding */
+                height: 30px; /* Adjust height */
+            }
+            .title {
+                font-size: 1.5em;
+                padding: 10px 5px;
+            }
+            .evaluation-cell {
+                height: 120px;
+            }
+            /* Optional: Stack cells vertically on very small screens */
+            /* You might need more complex CSS or a different HTML structure for perfect stacking */
+        }
+
+    </style>
+</head>
+<body>
+
+<table class="resume-table">
+    <!-- Define column widths using colgroup -->
+    <colgroup>
+        <col style="width: 12%;"> <col style="width: 21%;"> <!-- Pair 1 -->
+        <col style="width: 12%;"> <col style="width: 22%;"> <!-- Pair 2 -->
+        <col style="width: 12%;"> <col style="width: 21%;"> <!-- Pair 3 -->
+    </colgroup>
+
+    <!-- Table body -->
+    <tbody>
+        <!-- Title Row -->
+        <tr>
+            <td colspan="6" class="title">个人简历</td>
+        </tr>
+
+        <!-- Basic Information Section -->
+        <tr>
+            <td class="label">姓名</td><td></td> <!-- Name -->
+            <td class="label">性别</td><td></td> <!-- Gender -->
+            <td class="label">出生年月</td><td></td> <!-- Date of Birth -->
+        </tr>
+        <tr>
+            <td class="label">民族</td><td></td> <!-- Ethnicity -->
+            <td class="label">政治面貌</td><td></td> <!-- Political Status -->
+            <td class="label">身高</td><td></td> <!-- Height -->
+        </tr>
+        <tr>
+            <td class="label">学制</td><td></td> <!-- Education System -->
+            <td class="label">学历</td><td></td> <!-- Degree -->
+            <td class="label">户籍</td><td></td> <!-- Household Registration -->
+        </tr>
+        <tr>
+            <td class="label">专业</td><td></td> <!-- Major -->
+            <td class="label">毕业学校</td><td colspan="3"></td> <!-- Graduating School (spans 3 data columns) -->
+        </tr>
+
+        <!-- Skills, Strengths, Hobbies Section -->
+        <tr class="section-header">
+            <td colspan="6">技能、特长爱好</td>
+        </tr>
+        <tr>
+            <td class="label">外语等级</td><td colspan="2"></td> <!-- Foreign Language Level (spans 1 data column) -->
+            <td class="label">计算机</td><td colspan="2"></td> <!-- Computer Skills (spans 1 data column) -->
+        </tr>
+
+        <!-- Personal Experience Section -->
+        <tr class="section-header">
+            <td colspan="6">个人履历</td>
+        </tr>
+        <tr class="experience-header"> <!-- Header row for experience -->
+            <td class="label">时间</td> <!-- Time -->
+            <td colspan="2" class="label">单位</td> <!-- Unit (spans 2 columns) -->
+            <td colspan="3" class="label">经历</td> <!-- Experience (spans 3 columns) -->
+        </tr>
+        <tr>
+            <td>2002年4月</td> <!-- April 2002 -->
+            <td colspan="2"></td>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td>2003年3月</td> <!-- March 2003 -->
+            <td colspan="2"></td>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td>2003年8月</td> <!-- August 2003 -->
+            <td colspan="2"></td>
+            <td colspan="3"></td>
+        </tr>
+        <!-- Add more rows here if needed -->
+
+
+        <!-- Contact Information Section -->
+        <tr class="section-header">
+            <td colspan="6">联系方式</td>
+        </tr>
+        <tr>
+            <td class="label">通讯地址</td><td colspan="2"></td> <!-- Mailing Address -->
+            <td class="label">联系电话</td><td colspan="2"></td> <!-- Contact Phone -->
+        </tr>
+        <tr>
+            <td class="label">E-mail</td><td colspan="2"></td> <!-- E-mail -->
+            <td class="label">邮编</td><td colspan="2"></td> <!-- Postal Code -->
+        </tr>
+
+        <!-- Self-Evaluation Section -->
+        <tr class="section-header">
+            <td colspan="6">自我评价</td>
+        </tr>
+        <tr>
+            <td colspan="6" class="evaluation-cell"></td> <!-- Self-Evaluation content area -->
+        </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>

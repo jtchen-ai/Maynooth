@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 多级可折叠标签和提示框</title>
+    <style>
+        /* CSS重置和基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 让padding和border不增加元素总宽度 */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* 手风琴效果的主容器 */
+        .accordion-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px; /* 圆角 */
+            overflow: hidden; /* 隐藏超出部分，确保圆角生效 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影增加立体感 */
+        }
+
+        /* 容器内标题和段落的样式 */
+        .accordion-container > h1,
+        .accordion-container > p {
+            padding: 0 20px;
+        }
+        .accordion-container > h1 {
+            margin-top: 20px;
+        }
+         .accordion-container > p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+
+        /* 隐藏原生的复选框，因为我们要用label来控制它 */
+        .accordion-input, .sub-accordion-input {
+            display: none;
+        }
+
+        /* 可点击的标题栏 (label) 的通用样式 */
+        .accordion-label, .sub-accordion-label {
+            display: block;
+            padding: 15px 20px;
+            cursor: pointer; /* 鼠标悬停时显示小手图标 */
+            position: relative; /* 为子元素的绝对定位提供基准 */
+            user-select: none; /* 防止用户选中文本 */
+            transition: background-color 0.3s ease; /* 背景色变化的过渡动画 */
+        }
+
+        /* 主手风琴标题的特定样式 */
+        .accordion-label {
+            background-color: #6c757d;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* 鼠标悬停在主标题上时的样式 */
+        .accordion-label:hover {
+            background-color: #5a6268;
+        }
+
+        /* 子手风琴标题的特定样式 */
+        .sub-accordion-label {
+            background-color: #fff;
+            font-weight: bold;
+            border-top: 1px solid #eee; /* 在子标题上方添加分割线 */
+        }
+        
+        /* 鼠标悬停在子标题上时的样式 */
+        .sub-accordion-label:hover {
+             background-color: #f8f9fa;
+        }
+
+        /* 使用伪元素::after创建右侧的"+"和"-"图标 */
+        .accordion-label::after, .sub-accordion-label::after {
+            content: '+'; /* 默认显示加号 */
+            position: absolute; /* 绝对定位 */
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%); /* 垂直居中 */
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* 折叠内容的通用样式 */
+        .accordion-content, .sub-accordion-content {
+            max-height: 0; /* 核心技巧：默认最大高度为0，使其折叠 */
+            overflow: hidden; /* 隐藏超出高度的内容 */
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* 高度变化的平滑过渡动画 */
+            background-color: #fff;
+        }
+        
+        /* 子折叠内容的特定样式 */
+        .sub-accordion-content {
+             padding: 0 20px;
+             font-size: 0.95em;
+             line-height: 1.6;
+        }
+        
+        .sub-accordion-content p {
+            padding: 15px 0;
+        }
+        
+        .sub-accordion-content h2 {
+            margin-top: 15px;
+        }
+
+        /* --- 核心交互逻辑 --- */
+
+        /* 主手风琴：当复选框被选中时 */
+        .accordion-input:checked + .accordion-label {
+            background-color: #5a6268; /* 改变标题背景色 */
+        }
+
+        .accordion-input:checked + .accordion-label::after {
+            content: '−'; /* 改变图标为减号 */
+        }
+
+        .accordion-input:checked ~ .accordion-content {
+            max-height: 1000px; /* 撑开内容区域，实现展开效果 */
+        }
+        
+        /* 子手风琴：当复选框被选中时 */
+        .sub-accordion-input:checked + .sub-accordion-label {
+            background-color: #f8f9fa; /* 改变子标题背景色 */
+        }
+
+        .sub-accordion-input:checked + .sub-accordion-label::after {
+            content: '−'; /* 改变图标为减号 */
+        }
+        
+        .sub-accordion-input:checked ~ .sub-accordion-content {
+             max-height: 500px; /* 撑开子内容区域 */
+        }
+        
+        /* --- 悬停提示框样式 --- */
+        dfn {
+            position: relative; /* 为伪元素的绝对定位提供基准 */
+            text-decoration: underline;
+            text-decoration-style: dotted; /* 虚线下划线 */
+            cursor: help; /* 鼠标悬停时显示帮助图标 */
+            font-style: normal;
+            color: #007bff;
+        }
+
+        /* 提示框本身，使用::before伪元素创建 */
+        dfn::before {
+            content: attr(data-info); /* 核心技巧：从HTML的data-info属性获取提示内容 */
+            position: absolute; /* 绝对定位 */
+            bottom: 125%; /* 定位在文字上方 */
+            left: 50%;
+            transform: translateX(-50%); /* 水平居中 */
+            width: 280px; /* 固定宽度 */
+            background-color: rgba(17, 17, 17, 0.9); /* 半透明黑色背景 */
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            text-align: left;
+            text-decoration: none; /* 去掉可能的继承来的下划线 */
+            
+            /* 默认隐藏 */
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* 不响应鼠标事件 */
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* 添加淡入淡出动画 */
+            z-index: 10; /* 确保在最上层显示 */
+        }
+
+        /* 提示框的小箭头，使用::after伪元素创建 */
+        dfn::after {
+            content: '';
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            border: 8px solid transparent; /* CSS三角形技巧 */
+            border-top-color: rgba(17, 17, 17, 0.9); /* 只给上边框颜色，形成向下的箭头 */
+
+            /* 默认隐藏 */
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 10;
+        }
+
+        /* 当鼠标悬停在dfn标签上时，显示提示框和箭头 */
+        dfn:hover::before,
+        dfn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* 内容区域里的链接样式 */
+        .sub-accordion-content a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .sub-accordion-content a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="accordion-container">
+        <h1>CSS Accordions</h1>
+        <p>Because we can.</p>
+
+        <!-- 主项目 1 -->
+        <div class="accordion-item">
+            <!-- 隐藏的复选框，作为开关 -->
+            <input type="checkbox" id="item1" class="accordion-input">
+            <!-- 用户可见并点击的标题 -->
+            <label for="item1" class="accordion-label">Item 1</label>
+            <!-- 要折叠/展开的内容 -->
+            <div class="accordion-content">
+                <!-- 子项目 1.1 -->
+                <div class="sub-accordion-item">
+                    <input type="checkbox" id="sub1" class="sub-accordion-input">
+                    <label for="sub1" class="sub-accordion-label">Info on Hover!</label>
+                    <div class="sub-accordion-content">
+                        <h2>Info on Hover!</h2>
+                        <p>You can use this for lots of different purposes. Give information about something: <dfn data-info="JavaScript是HTML和Web的编程语言。它是一种功能强大的语言，可以实现动态和交互式的网页。">Javascript</dfn> and who knows what else!.</p>
+                        <p>You can make your page more compact by hiding the information with the data info. You can make text as long or short as you want! Example: <dfn data-info="HTML5是用于为万维网构建和呈现内容的核心技术标记语言。截至2014年10月，这是万维网联盟（W3C）HTML标准的最终完整第五次修订版。之前的版本HTML 4于1997年标准化。">About HTML5</dfn>. Are you ready for it?</p>
+                    </div>
+                </div>
+
+                <!-- 子项目 1.2 -->
+                <div class="sub-accordion-item">
+                    <input type="checkbox" id="sub2" class="sub-accordion-input">
+                    <label for="sub2" class="sub-accordion-label">Cascading Style Sheets 3</label>
+                    <div class="sub-accordion-content">
+                        <p>CSS3（层叠样式表3）是一种用于网页设计和样式化的标记语言。它是CSS的最新版本，带来了令人兴奋和创新的功能。CSS3提供了广泛的选项和更大的灵活性，使开发人员能够创建现代、视觉吸引力强且富有创意的网页设计。</p>
+                        <p>CSS3引入了许多新的属性和模块，包括渐变、阴影、圆角、过渡、动画等。这些功能使得在网页上实现复杂的视觉效果变得更加容易和直观。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主项目 2 -->
+        <div class="accordion-item">
+            <input type="checkbox" id="item2" class="accordion-input">
+            <label for="item2" class="accordion-label">Item 2</label>
+            <div class="accordion-content">
+                 <!-- 子项目 2.1 -->
+                <div class="sub-accordion-item">
+                    <input type="checkbox" id="sub3" class="sub-accordion-input">
+                    <label for="sub3" class="sub-accordion-label">Sub Item 2.1</label>
+                    <div class="sub-accordion-content">
+                        <p>这是子项目2.1的内容。你可以在这里添加任何相关信息。</p>
+                    </div>
+                </div>
+                <!-- 子项目 2.2 -->
+                <div class="sub-accordion-item">
+                    <input type="checkbox" id="sub4" class="sub-accordion-input">
+                    <label for="sub4" class="sub-accordion-label">Sub Item 2.2</label>
+                    <div class="sub-accordion-content">
+                        <p>这是子项目2.2的内容，演示了Item 2现在具有与Item 1相同的功能。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

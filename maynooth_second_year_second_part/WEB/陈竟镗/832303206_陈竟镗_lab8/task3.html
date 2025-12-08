@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悬停提示框示例</title>
+<style>
+    /* 主体样式，用于页面居中显示 */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #808080; /* 设置背景为灰色，与图片类似 */
+        font-family: sans-serif;
+    }
+
+    /* 提示框容器 */
+    .tooltip-container {
+        position: relative; /* 相对定位，作为提示框定位的基准 */
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    /* 模拟的图标和文本区域 */
+    .icon-area {
+        display: flex;
+        align-items: center;
+        padding: 15px 25px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        font-size: 16px;
+    }
+
+    /* 模拟的图标（一个简单的圆形 'A'） */
+    .icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        line-height: 24px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    /* 气泡提示文本样式 */
+    .tooltip-text {
+        visibility: hidden; /* 默认隐藏 */
+        opacity: 0; /* 默认完全透明 */
+        width: 160px;
+        background-color: #333; /* 深色背景 */
+        color: #fff; /* 白色文字 */
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%; /* 定位在图标上方 */
+        left: 50%;
+        margin-left: -80px; /* 使提示框水平居中 */
+        transition: opacity 0.3s; /* 添加淡入淡出过渡效果 */
+    }
+
+    /* 气泡提示文本的小箭头 */
+    .tooltip-text::after {
+        content: "";
+        position: absolute;
+        top: 100%; /* 箭头在提示框底部 */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent; /* 创建一个向下的三角形 */
+    }
+
+    /* 鼠标悬停在容器上时，显示气泡提示文本 */
+    .tooltip-container:hover .tooltip-text {
+        visibility: visible; /* 悬停时可见 */
+        opacity: 1; /* 悬停时不透明 */
+    }
+</style>
+</head>
+<body>
+
+<div class="tooltip-container">
+  <div class="icon-area">
+    <span class="icon">A</span>
+    <span>Hover over the "icon"!</span>
+  </div>
+  <span class="tooltip-text">Sample text for your tooltip!</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿Build started 2025-04-18 10:04:17.
+     1>Project "D:\梅努斯\计算机结构\labs\lab2\part4\part4\part4.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\part4.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\part4.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt part4.cpp
+         part4.cpp
+     1>part4.cpp(6): error C2059: syntax error : '/'
+     1>part4.cpp(9): error C2143: syntax error : missing ';' before '{'
+     1>part4.cpp(9): error C2447: '{' : missing function header (old-style formal list?)
+     1>part4.cpp(40): error C2143: syntax error : missing ';' before 'for'
+     1>Done Building Project "D:\梅努斯\计算机结构\labs\lab2\part4\part4\part4.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.13

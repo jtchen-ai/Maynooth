@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agn5_ex2.html</title>
+</head>
+<body>
+  <form action="action_page.html">
+    <!-- 文本输入字段 -->
+    <p>
+      Enter text:
+      <input type="text" name="textfield">
+    </p>
+
+    <!-- 单选按钮：Favorite color -->
+    <p>Favorite color:</p>
+    <p>
+      <input type="radio" id="color_blue" name="color" value="blue">
+      <label for="color_blue">Blue</label>
+      <input type="radio" id="color_red" name="color" value="red">
+      <label for="color_red">Red</label>
+    </p>
+
+    <!-- 数值输入字段（只接受 1–5 之间的数字） -->
+    <p>
+      Quantity (1–5):
+      <input type="number" name="quantity" min="1" max="5">
+    </p>
+
+    <!-- 提交按钮 -->
+    <p>
+      <input type="submit" value="Submit">
+    </p>
+  </form>
+</body>
+</html>

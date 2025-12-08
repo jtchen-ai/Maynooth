@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> {/* 更正了字符集 */}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>努比亚官方网站</title>
+    <style>
+        /* 基本重置和全局样式 */
+        body, h1, h2, h3, p, ul, li, a, button {
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+            text-decoration: none;
+            color: #333;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px; /* 主内容区域最大宽度 */
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 辅助类 */
+        .text-center {
+            text-align: center;
+        }
+        .section-title {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .section-subtitle a {
+            color: #888;
+            transition: color 0.3s;
+        }
+        .section-subtitle a:hover {
+            color: #e53935;
+        }
+
+        /* 按钮样式 */
+        .btn-explore {
+            display: inline-block;
+            padding: 3px 4px;
+            margin-bottom: 70px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #ccc;
+            color: #555;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 10px;
+            margin-top: -2px;
+        }
+
+        .btn-explore:hover {
+            background-color: #e53935;
+            color: #fff;
+            border-color: #e53935;
+        }
+
+        /* 第一部分：顶部导航 */
+        .top-nav {
+            background-color: #2c2c2c;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .top-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-nav .logo img {
+            height: 30px; /* 根据实际logo调整 */
+            vertical-align: middle;
+        }
+
+        .top-nav .nav-links ul, .top-nav .user-actions ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .top-nav .nav-links li a, .top-nav .user-actions li a {
+            color: #ccc;
+            padding: 10px 15px;
+            display: block;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .top-nav .nav-links li a.active,
+        .top-nav .nav-links li a:hover,
+        .top-nav .user-actions li a:hover {
+            color: #fff;
+        }
+        .top-nav .user-actions {
+            font-size: 13px;
+        }
+        .top-nav .user-actions img { /* 如果有图标 */
+            height: 16px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+
+        /* 第二部分：产品图标导航 */
+        .product-icon-nav {
+            background-color: #fff; /* 根据图片背景调整，原图似乎有浅米色背景 */
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-icon-nav .container {
+            display: flex;
+            justify-content: space-around; /* 或 space-between */
+            align-items: flex-start;
+            flex-wrap: wrap; /* 允许换行 */
+        }
+
+        .product-icon-item {
+            text-align: center;
+            margin: 0 10px; /* 图标间距 */
+        }
+
+        .product-icon-item img {
+            height: 50px; /* 根据实际图标大小调整 */
+            margin-bottom: 5px;
+            display: block; /* 消除图片下方空白 */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-icon-item p {
+            font-size: 12px;
+            color: #555;
+        }
+        .product-icon-item .new-badge {
+            color: red;
+            font-weight: bold;
+            font-size: 10px;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
+
+        /* 第三部分：Banner 和下方小图 */
+        .banner-section img { /* Removed .news-images img from here to avoid conflict */
+            width: 100%;
+            height:95%;
+            display: block;
+        }
+        .banner-section .banner-image {
+            position: relative; /* For dots if implemented */
+        }
+        /* Dots styling (optional, if you want to add static dots) */
+        .banner-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+        .banner-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            margin: 0 5px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        .banner-dots span.active {
+            background-color: #fff;
+        }
+
+
+        .news-images {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between; /* Or remove if images should touch */
+        }
+
+        .news-images .news-item {
+            flex: 1; /* Each item takes equal width */
+            position: relative; /* For positioning overlays */
+            overflow: hidden; /* Clip overlays if they exceed bounds */
+            margin: 0 5px; /* Add some spacing between items if needed */
+        }
+         .news-images .news-item:first-child { margin-left: 0; }
+         .news-images .news-item:last-child { margin-right: 0; }
+
+        .news-images .news-item img {
+             max-width: 100%;
+             display: block; /* Ensure image is block for proper layout */
+             transition: transform 0.3s ease; /* Optional: slight zoom on image itself */
+        }
+
+        /* Styles for news item hover effects */
+        .news-item-overlay-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 15px;
+            opacity: 0;
+            transform: translateY(100%); /* Start off-screen below */
+            transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+            box-sizing: border-box;
+            font-size: 12px;
+        }
+        .news-item-overlay-content h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: white;
+        }
+         .news-item-overlay-content p {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #f0f0f0;
+        }
+
+
+        .news-item-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7); /* Initial state: centered and slightly small */
+            opacity: 0;
+            transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .news-item-play-button svg {
+            width: 50px;
+            height: 50px;
+            fill: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .news-item:hover .news-item-overlay-content {
+            opacity: 1;
+            transform: translateY(0); /* Slide in from bottom */
+        }
+
+        .news-item:hover .news-item-play-button {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* Scale to full size */
+        }
+        
+        .news-item:hover .news-item-play-button svg {
+            animation: pulsePlayIcon 1.2s infinite ease-in-out;
+        }
+
+        /* Optional: Slight zoom on the news image itself on hover */
+        /*
+        .news-item:hover img {
+            transform: scale(1.03);
+        }
+        */
+
+        @keyframes pulsePlayIcon {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+
+        /* 第四部分：最新产品 */
+        .latest-products {
+            padding: 20px 0;
+        }
+
+        .latest-products-content {
+            display: flex;
+            flex-wrap: wrap; /* Allows items to wrap if needed on smaller screens */
+            gap: 10px; /* Spacing between items */
+        }
+
+        .product-item {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #e0e0e0; /* Subtle border */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtle shadow */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes button to bottom */
+            overflow: hidden; /* Crucial for containing transformed image */
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 15px;
+            transition: transform 0.35s ease-in-out; /* Smooth transition for transform */
+        }
+        
+        /* Hover effect for product images: scale and horizontal pan */
+        .product-item:hover img {
+            transform: scale(1.08) translateX(10px); /* Zoom in slightly and pan to the right */
+            /* To pan left: transform: scale(1.08) translateX(-10px); */
+        }
+
+
+        .product-item h3 {
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .product-item p {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+            flex-grow: 1; /* Allows p to take space if h3 is short */
+        }
+        
+        /* Specific layout for "最新产品" items */
+        .product-item-full-width { /* con_p1 */
+            width: 100%;
+            height: 300px; /* Adjust as needed */
+        }
+        .product-item-full-width img {
+            max-height: 200px; /* Adjust */
+            object-fit: contain;
+        }
+
+        .products-bottom-row {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .product-item-tall-left { /* con_p3 */
+            flex: 1; /* Adjust flex basis as needed */
+            /* Approx 40% width of the bottom row */
+            min-width: 200px; /* Minimum width before wrapping or shrinking too much */
+        }
+        .product-item-tall-left img {
+            max-height: 250px; /* Adjust */
+            margin-top: 60px;
+            object-fit: contain;
+        }
+
+
+        .products-right-column {
+            flex: 1.5; /* Adjust flex basis, takes more space */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product-item-wide-right-top { /* con_p2 */
+            width: 93.7%;
+            height: 200px; /* Adjust */
+        }
+        .product-item-wide-right-top img {
+            max-height: 120px; /* Adjust */
+            object-fit: contain;
+            display: block;      /* 确保是块级 */
+            margin-left: auto;   /* 实现图片右对齐 */
+            margin-right: 0;   
+        }
+        .product-item-wide-right-top:hover img {
+            transform: scale(1.08) translateX(-15px); /* 放大并向左平移，可以调整数值 */
+        }
+
+        .products-right-bottom-pair {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .product-item-small-bottom { /* con_p4, con_p5 */
+            flex: 1; /* Each takes half of the pair's width */
+            height: 250px; /* Adjust */
+        }
+        .product-item-small-bottom img {
+            max-height: 150px; /* Adjust */
+            object-fit: contain;
+        }
+
+        /* 第五部分：精选配件 */
+        .featured-accessories {
+            padding: 20px 0;
+        }
+        .accessories-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .accessory-item {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            width: calc(25% - 10px); /* 4 items per row, accounting for gap */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        .accessory-item img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 10px;
+    /* 修改/新增以下两行 */
+            transition: transform 0.4s ease-out; /* 尝试将时间延长到0.4s，并将时间函数改为 ease-out */
+            will-change: transform;             /* 新增：提示浏览器该属性会变化，以便优化 */
+}
+
+        .accessory-item:hover img {
+            transform: scale(1.1) translateX(10px); /* 保持原来的变换效果 */
+    /* 如果你觉得平移的幅度太大或太小，也可以调整 translateX 的值 */
+}
+  
+        
+        .accessory-item p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 第六部分：页脚 */
+        .site-footer {
+            background-color: #333;
+            color: #aaa;
+            padding: 40px 0 20px;
+            font-size: 12px;
+        }
+        .footer-links-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-column {
+            margin-right: 20px; /* Spacing between columns */
+        }
+        .footer-column h4 {
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        .footer-column ul li a {
+            color: #aaa;
+            transition: color 0.3s;
+        }
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+        .footer-contact {
+            text-align: right;
+            flex-grow: 1; /* Takes remaining space if needed */
+        }
+        .footer-contact .service-hotline {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .footer-contact .social-icons span { /* Placeholder for social icons */
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #555;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-left: 10px;
+            font-size: 10px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .footer-bottom .legal-links a {
+            color: #aaa;
+            margin: 0 10px;
+        }
+        .footer-bottom .legal-links a:hover {
+            color: #fff;
+        }
+        .footer-bottom p {
+            margin-top: 10px;
+            color: #888;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .product-item-tall-left, .products-right-column {
+                flex-basis: 100%; /* Stack on smaller screens */
+            }
+            .products-bottom-row {
+                flex-direction: column;
+            }
+            .accessory-item {
+                width: calc(50% - 10px); /* 2 items per row */
+            }
+            .footer-links-section {
+                flex-direction: column;
+            }
+            .footer-column {
+                margin-bottom: 20px;
+            }
+            .footer-contact {
+                text-align: left;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav .nav-links {
+                display: none; /* Simple responsive: hide main links or implement a burger menu */
+            }
+            .product-icon-nav .container {
+                justify-content: center;
+            }
+            .product-icon-item {
+                flex-basis: calc(25% - 20px); /* 4 icons per row */
+                margin-bottom: 15px;
+            }
+             .news-images {
+                flex-direction: column;
+            }
+            .news-images .news-item {
+                margin-bottom:10px; /* Spacing when stacked */
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .products-right-bottom-pair {
+                flex-direction: column;
+            }
+            .product-item-small-bottom {
+                 height: auto; /* Adjust height for stacked items */
+            }
+            .accessory-item {
+                width: 100%; /* 1 item per row */
+            }
+        }
+         @media (max-width: 480px) {
+            .product-icon-item {
+                flex-basis: calc(33.33% - 20px); /* 3 icons per row */
+            }
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- 第一部分：最上面那行 -->
+    <header class="top-nav">
+        <div class="container">
+            <div class="logo">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\logo.png" alt="努比亚 Logo">
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">商城</a></li>
+                    <li><a href="#" class="active">产品</a></li>
+                    <li><a href="#">应用</a></li>
+                    <li><a href="#">服务</a></li>
+                    <li><a href="#">体验店</a></li>
+                    <li><a href="#">社区</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <ul>
+                    <li><a href="#">登录</a></li>
+                    <li><a href="#">注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- 第二部分：一排手机图标 -->
+    <nav class="product-icon-nav">
+        <div class="container">
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p1.png" alt="Z11 miniS">
+                <p>Z11 miniS<span class="new-badge">新款</span></p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p2.png" alt="Z11">
+                <p>Z11</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p3.png" alt="Z11 Max">
+                <p>Z11 Max</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p4.png" alt="Z11 mini">
+                <p>Z11 mini</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p5.png" alt="N1">
+                <p>N1</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p6.png" alt="布拉格S">
+                <p>布拉格S</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p7.png" alt="My 布拉格">
+                <p>My 布拉格</p>
+            </div>
+            <div class="product-icon-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\nav_p8.png" alt="Z9">
+                <p>Z9</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 第三部分：大图片和下方三张小图 -->
+    <section class="banner-section">
+        <div class="banner-image">
+            <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\banner.jpg" alt="努比亚 Z11 Banner">
+            <!-- Static dots for visual representation, not functional -->
+            <div class="banner-dots">
+                <span></span><span class="active"></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="news-images container">
+            <div class="news-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\news_p1.png" alt="News Image 1">
+                <div class="news-item-overlay-content">
+                    <h4>探索Z11的摄影魅力</h4>
+                    <p>了解更多关于Z11系列的创新摄影技术和出色表现。</p>
+                </div>
+                <div class="news-item-play-button">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+            <div class="news-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\news_p2.png" alt="News Image 2">
+                <div class="news-item-overlay-content">
+                    <h4>努比亚新品发布回顾</h4>
+                    <p>回顾近期努比亚发布会精彩瞬间和最新产品亮点。</p>
+                </div>
+                <div class="news-item-play-button">
+                     <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+            <div class="news-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\news_p3.png" alt="News Image 3">
+                <div class="news-item-overlay-content">
+                    <h4>用户故事：我的努比亚</h4>
+                    <p>听听努比亚用户分享他们与手机的精彩故事和体验。</p>
+                </div>
+                <div class="news-item-play-button">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第四部分：最新产品 -->
+    <section class="latest-products container">
+        <h2 class="section-title">最新产品</h2>
+        <p class="section-subtitle"><a href="#">查看全部手机 ></a></p>
+        <div class="latest-products-content">
+            <div class="product-item product-item-full-width">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p1.png" alt="nubia Z11 极光蓝">
+                <h3>nubia Z11 极光蓝</h3>
+                <p>&nbsp;</p> <!-- Placeholder for description if any, or to help with alignment -->
+                <button class="btn-explore">一探究竟</button>
+            </div>
+
+            <div class="products-bottom-row">
+                <div class="product-item product-item-tall-left">
+                    <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p3.png" alt="nubia Z11 miniS">
+                    <h3>nubia Z11 miniS</h3>
+                    <p>手机摄影专家</p>
+                    <button class="btn-explore">一探究竟</button>
+                </div>
+
+                <div class="products-right-column">
+                    <div class="product-item product-item-wide-right-top">
+                        <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p2.png" alt="nubia Z11 咖啡金">
+                        <h3>nubia Z11 咖啡金</h3>
+                        <p>无边框旗舰手机</p>
+                        <button class="btn-explore">一探究竟</button>
+                    </div>
+                    <div class="products-right-bottom-pair">
+                        <div class="product-item product-item-small-bottom">
+                            <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p4.png" alt="nubia Z11 Max">
+                            <h3>nubia Z11 Max</h3>
+                            <p>大不同</p>
+                            
+                        </div>
+                        <div class="product-item product-item-small-bottom">
+                            <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p5.png" alt="nubia Z11 mini">
+                            <h3>nubia Z11 mini</h3>
+                            <p>小世界·大精彩</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第五部分：精选配件 -->
+    <section class="featured-accessories container">
+        <h2 class="section-title">精选配件</h2>
+        <p class="section-subtitle"><a href="#">查看全部配件 ></a></p>
+        <div class="accessories-grid">
+            <div class="accessory-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p6.png" alt="努比亚快充移动电源">
+                <p>努比亚快充移动电源</p>
+            </div>
+            <div class="accessory-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p7.png" alt="努比亚圈铁耳机">
+                <p>努比亚圈铁耳机</p>
+            </div>
+            <div class="accessory-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p8.png" alt="努比亚炫美自拍杆">
+                <p>努比亚炫美自拍杆</p>
+            </div>
+            <div class="accessory-item">
+                <img src="D:\梅努斯\WEB\第三次-实验题目\实验题目\images\con_p9.png" alt="nubia摄影三脚架">
+                <p>nubia摄影三脚架</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第六部分：页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-links-section">
+                <div class="footer-column">
+                    <h4>全部机型</h4>
+                </div>
+                <div class="footer-column">
+                    <h4>Z系列</h4>
+                    <ul>
+                        <li><a href="#">nubia Z11</a></li>
+                        <li><a href="#">nubia Z11 Max</a></li>
+                        <li><a href="#">nubia Z11 mini</a></li>
+                        <li><a href="#">nubia Z9</a></li>
+                        <li><a href="#">nubia Z9 Max</a></li>
+                        <li><a href="#">nubia Z9 mini</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>M系列</h4>
+                    <ul>
+                        <li><a href="#">nubia 布拉格S</a></li>
+                        <li><a href="#">nubia My 布拉格</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>配件</h4>
+                    <ul>
+                        <li><a href="#">保护壳</a></li>
+                        <li><a href="#">皮套</a></li>
+                        <li><a href="#">贴膜</a></li>
+                        <li><a href="#">耳机</a></li>
+                        <li><a href="#">数据线/充电器</a></li>
+                        <li><a href="#">周边产品</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <div class="service-hotline">服务热线: 400-700-6600</div>
+                    <div>
+                        <!-- Placeholder for social icons -->
+                        <span title="微信">微</span>
+                        <span title="微博">博</span>
+                        <span title="社区">社</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="legal-links">
+                    <a href="#">关于我们</a> |
+                    <a href="#">联系我们</a> |
+                    <a href="#">新闻中心</a> |
+                    <a href="#">加入我们</a> |
+                    <a href="#">公益</a> |
+                    <a href="#">星空之约</a> |
+                    <a href="#">问题反馈</a> |
+                    <a href="#">简体中文</a>
+                </div>
+                <p>2012-2016 努比亚技术有限公司 版权所有 粤ICP备10006213号-2</p>
+                <p>ICP经营许可证编号:粤B2-20120688 粤公网安备 44030502000309号</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

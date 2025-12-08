@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>导航栏效果 - 即时高亮</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center; /* 水平居中导航栏 */
+        align-items: flex-start; /* 顶部对齐，如果页面内容多则不需要 */
+        min-height: 100vh;
+        margin: 0;
+        padding-top: 50px; /* 给导航栏一些顶部空间 */
+        background-color: #f0f0f0; /* 淡灰色背景，突出导航栏 */
+        font-family: 'SimSun', sans-serif; /* 使用宋体或类似中文字体 */
+    }
+
+    nav.navbar {
+        background-color: #00c0c0; /* 青色背景 */
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: inline-block; /* 使导航栏宽度自适应内容 */
+    }
+
+    nav.navbar ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex; /* 水平排列列表项 */
+    }
+
+    nav.navbar ul li {
+        position: relative; /* 为了span的绝对定位 */
+    }
+
+    nav.navbar ul li a {
+        display: block;
+        padding: 15px 25px;
+        text-decoration: none;
+        color: #000080; /* 初始深蓝色字体 */
+        font-size: 16px;
+        text-align: center;
+        position: relative;
+        z-index: 0; /* 确保文字在黄色条之上 */
+        transition: color 0.2s ease-in-out; /* 文字颜色变化平滑过渡 */
+    }
+
+    /* 鼠标悬停时文字变白 */
+    nav.navbar ul li:hover a {
+        color: white;
+    }
+
+    /* 黄色高亮条 */
+    .highlight-bar-top {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 8px; /* 黄色条的高度 */
+        width: 100%; /* 宽度始终为100% */
+        background-color: transparent; /* 初始为透明，或与导航栏背景色一致使其不可见 */
+        z-index: 1;
+        /* 移除宽度过渡，添加背景色过渡（如果需要平滑出现颜色的话） */
+        /* 如果完全不要动画，连 background-color 的 transition 也不需要 */
+        /* transition: background-color 0.1s ease-out; */ /* 可选：颜色出现的一个小动画 */
+    }
+
+    /* 当鼠标悬停在li上时，高亮条的背景变为黄色 */
+    nav.navbar ul li:hover .highlight-bar-top {
+        background-color: gold; /* 一下子变为黄色 */
+    }
+
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <ul>
+        <li>
+            <a href="#">首页</a>
+            <span class="highlight-bar-top"></span>
+        </li>
+        <li>
+            <a href="#">首页</a>
+            <span class="highlight-bar-top"></span>
+        </li>
+        <li>
+            <a href="#">首页</a>
+            <span class="highlight-bar-top"></span>
+        </li>
+        <li>
+            <a href="#">首页</a>
+            <span class="highlight-bar-top"></span>
+        </li>
+        <li>
+            <a href="#">首页</a>
+            <span class="highlight-bar-top"></span>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

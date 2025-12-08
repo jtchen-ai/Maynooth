@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>随机红点</title>
+ <style>
+ body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+ canvas { display: block; }
+ </style>
+</head>
+<body>
+ <canvas id="myCanvas"></canvas>
+
+
+ <script>
+ const canvas = document.getElementById('myCanvas');
+ const ctx = canvas.getContext('2d');
+ let width = window.innerWidth;
+ let height = window.innerHeight;
+
+
+ canvas.width = width;
+ canvas.height = height;
+
+
+ function drawDot() {
+ const x = Math.random() * width;
+ const y = Math.random() * height;
+ const radius = 5; // 可以调整点的大小
+
+
+ ctx.beginPath();
+ ctx.arc(x, y, radius, 0, Math.PI * 2);
+ ctx.fillStyle = 'red';
+ ctx.fill();
+ }
+
+
+ setInterval(drawDot, 30); // 每 30 毫秒 (0.03 秒) 添加一个点
+
+
+ // 监听窗口大小变化，调整画布尺寸
+ window.addEventListener('resize', () => {
+ width = window.innerWidth;
+ height = window.innerHeight;
+ canvas.width = width;
+ canvas.height = height;
+ });
+ </script>
+</body>
+</html>

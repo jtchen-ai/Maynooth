@@ -1,0 +1,33 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+ 
+<p id="demo"></p> 
+
+
+<script> 
+    // Create an object： 
+    var a =[1, 1, 2, 2, 3, 3, 4, 4, 5]
+    // Display the data in the object: 
+    document.getElementById("demo").innerHTML = 
+    removeDuplicates(a); 
+
+    function removeDuplicates(a){
+        var b= [];
+
+        for(var i=0;i<a.length;i++){
+            if(b.indexOf(a[i])=== -1){
+                b.push(a[i]);
+            }
+
+
+        }
+        return b;
+
+    }
+    
+    
+</script> 
+
+</body> 
+</html> 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电灯开关</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        #lightbulb {
+            cursor: pointer;
+            width: 200px; /* 您可以根据图片实际大小调整 */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <img id="lightbulb" src="D:\梅努斯\WEB\第五次-实验题目\第五次-实验题目\第一题相关附件\images\off.gif" alt="电灯">
+
+    <script>
+        const lightbulb = document.getElementById('lightbulb');
+
+        // 重要：请根据您的实际文件存放位置调整下面的图片路径
+        // 方案1: 如果图片在HTML文件同级的images文件夹下
+        // const lightOffSrc = 'images/off.gif';
+        // const lightOnSrc = 'images/on.gif';
+
+        // 方案2: 使用您提供的绝对路径 (可能因浏览器安全策略无法直接工作)
+        // 如果HTML文件与images文件夹的父目录结构如您所提供，
+        // 并且您通过本地服务器访问，或者调整为相对路径。
+        // 为了演示，我们先使用您提供的路径，但强烈建议使用相对路径或本地服务器。
+
+        // 假设您的HTML文件保存在 D:\梅努斯\WEB\第五次-实验题目\第五次-实验题目\第一题相关附件\ 目录下
+        // 那么相对路径应该是：
+        const lightOffRelativeSrc = 'images/off.gif';
+        const lightOnRelativeSrc = 'images/on.gif';
+
+        // 为了让示例能直接运行时看起来有效果，我会尝试使用您提供的绝对路径，
+        // 但请注意，这在直接用浏览器打开本地 HTML 文件时通常会失败。
+        // 您应该将下面的路径修改为相对路径，并将图片放到正确的位置。
+        const baseDir = "D:\\梅努斯\\WEB\\第五次-实验题目\\第五次-实验题目\\第一题相关附件\\";
+        const lightOffSrc = baseDir + "images\\off.gif";
+        const lightOnSrc = baseDir + "images\\on.gif";
+
+        // 初始化，确保初始状态是off.gif
+        // 如果您的HTML中的src已经是off.gif，这行可以省略，但为了明确，加上也无妨
+        lightbulb.src = lightOffSrc; // 或者 lightOffRelativeSrc 如果使用相对路径
+
+        lightbulb.addEventListener('click', function() {
+            // 在比较时，最好比较文件名或者路径的尾部，因为浏览器可能会将相对路径解析为完整路径
+            if (lightbulb.src.endsWith('off.gif')) {
+                lightbulb.src = lightOnSrc; // 或者 lightOnRelativeSrc
+                lightbulb.alt = "点亮的电灯";
+            } else {
+                lightbulb.src = lightOffSrc; // 或者 lightOffRelativeSrc
+                lightbulb.alt = "熄灭的电灯";
+            }
+        });
+
+        // 提示用户关于本地文件路径的问题
+        
+
+    </script>
+
+</body>
+</html>

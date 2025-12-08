@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册邮箱账号</title>
+    <style>
+        /* Basic reset and page styles */
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Registration container styles */
+        .registration-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: left;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+            border-left: 5px solid #5b9bd5;
+            padding-left: 10px;
+            font-size: 18px;
+        }
+
+        /* Form group styles */
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center; /* Default align items vertically center */
+        }
+
+        /* Label styles */
+        .form-group label:first-child {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+            margin-right: 15px;
+            color: #555;
+            font-size: 14px;
+            flex-shrink: 0;
+            vertical-align: middle; /* Align label with middle of input */
+        }
+
+        /* Input, select styles */
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="date"],
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            flex-grow: 1; /* Allow inputs/selects to grow */
+            min-width: 150px; /* Minimum width */
+            height: 40px; /* Consistent height */
+            vertical-align: middle; /* Align with label */
+        }
+        .form-group input[type="date"] {
+             line-height: normal; /* Attempt to vertically center date text */
+             /* Note: Placeholder text might not display in native date inputs */
+        }
+
+        /* Style for select elements to add custom dropdown arrow */
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('img/down.jpg'); /* Ensure img/down.jpg exists */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 10px 6px;
+            padding-right: 30px; /* Space for custom arrow */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        /* Hint text styles (for email hint) */
+        /* Exclude verification hint which has its own styling */
+        .form-group .hint:not(.verification-group .hint) {
+            font-size: 12px;
+            color: #888;
+            margin-left: 10px; /* Space from input */
+            flex-basis: 100%; /* Take full width on wrap */
+            margin-top: 5px; /* Space when wrapped */
+            padding-left: 115px; /* Indent to align with input */
+            box-sizing: border-box;
+        }
+        .form-group .hint a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .form-group .hint a:hover {
+            text-decoration: underline;
+        }
+
+        /* Gender radio button group */
+        .gender-group label:first-child {
+             /* Keep the main label style */
+        }
+        .gender-group input[type="radio"] {
+            margin-left: 10px; /* Space before radio */
+            vertical-align: middle;
+        }
+        .gender-group input[type="radio"]:first-of-type {
+            margin-left: 0; /* No space for the first radio */
+        }
+        .gender-group label.radio-label {
+            width: auto; /* Natural width */
+            text-align: left;
+            margin-right: 15px; /* Space between radio options */
+            margin-left: 5px; /* Space between radio and its label */
+            font-weight: normal;
+            color: #333;
+            vertical-align: middle;
+        }
+
+
+        /* Birthdate group specific styles */
+        .birthdate-group select#calendar_type {
+            flex-grow: 0; /* Don't grow */
+            flex-basis: auto; /* Natural width */
+            width: 80px; /* Fixed width for calendar type */
+            margin-right: 10px; /* Space between selects */
+        }
+        .birthdate-group input#birthdate {
+            flex-grow: 1; /* Take remaining space */
+        }
+
+
+        /* Location select group */
+        .location-group select {
+            margin-right: 10px;
+            flex-grow: 0; /* Don't grow */
+            flex-basis: auto; /* Let width be calculated */
+            /* Calculate width: (Available space - margins) / 3 */
+            /* Available space = 100% - label width - label margin */
+            width: calc( (100% - 100px - 15px - 20px) / 3 );
+            min-width: 80px; /* Minimum width */
+        }
+        .location-group select:last-child {
+            margin-right: 0; /* No margin for the last select */
+        }
+
+        /* --- Verification Code Area Refinements --- */
+        .verification-group {
+            align-items: center; /* Keep vertical alignment */
+        }
+        /* Styling for the verification box */
+        .verification-group .verification-box {
+            border: 0px solid #e0e0e0;
+            padding: 0px 0px;
+            display: inline-flex;
+            align-items: center;
+            background-color: #f7f7f7;
+            color: #666666;
+            cursor: pointer;
+            border-radius: 0px;
+            font-size: 14px;
+            margin-right: 10px;
+            vertical-align: middle;
+            width: 190px;
+            height: 40px; /* Match input height */
+            box-sizing: border-box;
+            flex-grow: 0;
+            overflow: hidden; /* Hide overflow if icon is too big */
+        }
+        /* MODIFIED: Icon inside verification box */
+        .verification-group .verification-icon {
+            height: 100%; /* Fill height of box */
+            width: 100%;  /* Fill width of box */
+            object-fit: contain; /* Keep aspect ratio, fit inside */
+            margin-right: 0; /* Remove margin */
+            opacity: 0.7;
+            display: block; /* Ensure it behaves as a block */
+        }
+        /* Hiding the text span as the icon now fills the box */
+        /* If you still want text, you'll need a different layout */
+        .verification-group .verification-box span {
+             display: none;
+        }
+
+        /* Style the hint text next to the verification box */
+        .verification-group .hint {
+            padding-left: 0;
+            margin-left: 0;
+            margin-top: 0;
+            flex-basis: auto;
+            color: #e83636;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+
+        /* Terms checkbox group */
+        .terms-group {
+            padding-left: 115px; /* Indent to align with inputs */
+            align-items: center;
+        }
+        .terms-group input[type="checkbox"] {
+            margin-right: 8px;
+            vertical-align: middle;
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
+        }
+        .terms-group label {
+            width: auto; /* Natural width */
+            text-align: left;
+            margin-right: 0;
+            font-size: 13px;
+            color: #555;
+            vertical-align: middle;
+            display: inline-flex; /* Use flex for better alignment */
+            align-items: center;
+        }
+        .terms-group label a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 3px; /* Space around links */
+        }
+        .terms-group label a:hover {
+            text-decoration: underline;
+        }
+        .terms-group label .dropdown-arrow {
+            height: 12px; /* Adjust size as needed */
+            margin-left: 10px;
+            vertical-align: middle;
+            /* Ensure img/down.jpg exists */
+        }
+
+        /* --- Submit Button Refinements --- */
+        .submit-group {
+            padding-left: 9px; /* Indent container */
+            justify-content: flex-start; /* Align content left */
+            margin-top: 20px; /* Space before submit */
+            /* Ensure the group itself aligns correctly */
+            display: flex; /* Use flex for alignment */
+            align-items: center; /* Align items vertically */
+             /* Remove default form-group bottom margin if submit is inside terms */
+             margin-bottom: 0;
+        }
+
+        /* NEW: Styles for the image submit button */
+        .submit-group input[type="image"] {
+            cursor: pointer;
+            border: none;
+            height: 40px; /* Match verification box height */
+            width: 190px; /* Similar width to verification box (adjust as needed) */
+            vertical-align: middle; /* Align with other elements if needed */
+            transition: opacity 0.3s ease;
+            padding: 0; /* Remove padding */
+            box-sizing: border-box;
+        }
+
+        .submit-group input[type="image"]:hover {
+             opacity: 0.9;
+        }
+
+        /* REMOVED/COMMENTED OUT: Old button styles */
+        /*
+        .submit-group button {
+            background-image: url('img/register.jpg');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            color: white;
+            padding: 0;
+            height: 42px;
+            width: 85px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+            box-sizing: border-box;
+            line-height: 42px;
+            text-align: center;
+            display: inline-block;
+        }
+        .submit-group button:hover {
+            opacity: 0.9;
+        }
+        */
+
+        /* --- Responsive Adjustments Update --- */
+        @media (max-width: 600px) {
+            .registration-container {
+                padding: 20px;
+            }
+
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 15px;
+            }
+
+            .form-group label:first-child {
+                width: 100%;
+                text-align: left;
+                margin-right: 0;
+                margin-bottom: 5px;
+                vertical-align: initial;
+            }
+
+            .form-group input[type="text"],
+            .form-group input[type="email"],
+            .form-group input[type="password"],
+            .form-group input[type="date"],
+            .form-group select,
+            .verification-group .verification-box {
+                width: 100%;
+                vertical-align: initial;
+            }
+
+            .form-group .hint:not(.verification-group .hint) {
+                padding-left: 0;
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .location-group select {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .location-group select:last-child {
+                margin-bottom: 0;
+            }
+
+             .birthdate-group select#calendar_type {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .gender-group {
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .gender-group label:first-child {
+                 width: auto;
+                 margin-bottom: 0;
+                 margin-right: 10px;
+            }
+            .gender-group input[type="radio"],
+            .gender-group label.radio-label {
+                vertical-align: middle;
+                margin-bottom: 5px;
+            }
+
+            .terms-group,
+            .submit-group { /* Apply to submit group as well */
+                padding-left: 0;
+                 /* Ensure submit group takes full width if needed */
+                 width: 100%;
+                 justify-content: center; /* Center button on mobile */
+            }
+            .terms-group label {
+                font-size: 12px;
+            }
+            /* Adjust terms group layout on mobile */
+            .terms-group {
+                 flex-direction: column; /* Stack checkbox/label and button */
+                 align-items: flex-start; /* Align items left */
+            }
+             .terms-group label {
+                 margin-bottom: 15px; /* Add space between label and button */
+             }
+
+
+             /* Verification responsive adjustments */
+            .verification-group {
+                align-items: flex-start;
+            }
+             .verification-group .verification-box {
+                margin-bottom: 5px;
+                width: 100%;
+            }
+             .verification-group .hint {
+                 margin-left: 0;
+                 width: 100%;
+                 vertical-align: initial;
+                 text-align: left;
+            }
+
+            /* Submit button responsive adjustments */
+            .submit-group input[type="image"] {
+                width: 100%; /* Make button full width */
+                height: 40px; /* Keep height consistent */
+                /* object-fit: contain; */ /* Optional: Adjust how image fits if needed */
+            }
+
+            /* REMOVED/COMMENTED OUT: Old responsive button styles */
+            /*
+            .submit-group button {
+                width: 100%;
+                padding: 0;
+                line-height: 42px;
+            }
+            */
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>注册邮箱账号</h2>
+        <form action="#" method="post">
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">邮箱账号</label>
+                <input type="email" id="email" name="email" required>
+                <span class="hint">请输入您常用的电子邮箱 <a href="#">创建邮箱</a> 或 <a href="#">注册普通QQ号</a></span>
+            </div>
+            <!-- Nickname -->
+            <div class="form-group">
+                <label for="nickname">昵称</label>
+                <input type="text" id="nickname" name="nickname" required>
+            </div>
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirm_password">确认密码</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <!-- Gender -->
+            <div class="form-group gender-group">
+                <label>性别</label> <!-- Main label -->
+                <input type="radio" id="male" name="gender" value="male" checked>
+                <label for="male" class="radio-label">男</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female" class="radio-label">女</label>
+            </div>
+            <!-- Birthdate -->
+            <div class="form-group birthdate-group">
+                <label for="birthdate">生日</label>
+                <select id="calendar_type" name="calendar_type">
+                    <option value="gregorian">公历</option>
+                    <option value="lunar">农历</option> <!-- Added Lunar option -->
+                </select>
+                <input type="date" id="birthdate" name="birthdate" placeholder="年 / 月 / 日">
+                <!-- Note: Input type="date" typically only works well with Gregorian calendar dates -->
+            </div>
+            <!-- Location -->
+            <div class="form-group location-group">
+                <label for="country">所在地</label>
+                <select id="country" name="country">
+                    <option value="china" selected>中国</option>
+                    <option value="usa">美国</option>
+                    <option value="other">其他</option>
+                </select>
+                <select id="province" name="province">
+                    <option value="shanghai" selected>上海</option>
+                    <option value="beijing">北京</option>
+                    <option value="guangdong">广东</option>
+                    <option value="jiangsu">江苏</option>
+                    <option value="zhejiang">浙江</option>
+                    <option value="other_province">其他省份</option>
+                </select>
+                <select id="city" name="city">
+                    <option value="huangpu" selected>黄浦</option>
+                    <option value="pudong">浦东</option>
+                    <option value="xuhui">徐汇</option>
+                    <option value="chaoyang">朝阳</option> <!-- Example for Beijing -->
+                    <option value="haidian">海淀</option> <!-- Example for Beijing -->
+                    <option value="guangzhou">广州</option> <!-- Example for Guangdong -->
+                    <option value="shenzhen">深圳</option> <!-- Example for Guangdong -->
+                    <option value="other_city">其他城市</option>
+                </select>
+            </div>
+            <!-- Verification -->
+            <div class="form-group verification-group">
+                <label>验证码</label> <!-- Adjusted label to not use 'for' as input is gone -->
+                <div class="verification-box" onclick="alert('Initiate verification process');">
+                    <img src="D:\梅努斯\WEB\第二次-实验题目及素材\第二次-实验题目及素材\3-注册界面素材\img\yz.png" alt="验证图标" class="verification-icon">
+                    <span>点击完成验证</span> <!-- This text is now hidden by CSS -->
+                </div>
+                <span class="hint">请先进行安全验证</span>
+            </div>
+
+            <!-- Terms and Submit Button Structure Correction -->
+            <!-- Wrap Terms and Submit in separate groups if they shouldn't be nested -->
+            <!-- Assuming Submit should be after Terms, not inside it -->
+
+            <!-- Terms -->
+            <div class="form-group terms-group">
+                 <!-- Checkbox and Label part -->
+                 <div style="display: flex; align-items: center; width: 100%;"> <!-- Wrapper for checkbox/label -->
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">我已阅读并同意<a href="#">相关服务条款</a>和<a href="#">隐私政策</a>
+                        <img src="D:\梅努斯\WEB\第二次-实验题目及素材\第二次-实验题目及素材\3-注册界面素材\img\down.jpg" alt="展开" class="dropdown-arrow">
+                    </label>
+                 </div>
+                 <!-- Submit Button moved outside this specific div, but potentially after the terms group -->
+            </div>
+
+            <!-- Submit Button -->
+             <div class="form-group submit-group">
+                 <!-- The label is usually not needed for submit, but keep container -->
+                 <label style="visibility: hidden;">提交</label> <!-- Hidden label for alignment if needed -->
+                 <input type="image" src="D:\梅努斯\WEB\第二次-实验题目及素材\第二次-实验题目及素材\3-注册界面素材\img\register.jpg" alt="提交注册" name="submit">
+             </div>
+
+        </form>
+    </div>
+</body>
+</html>

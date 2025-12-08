@@ -1,0 +1,33 @@
+﻿Build started 2025-04-18 9:34:32.
+     1>Project "D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\MASM_FP1\MASM_FP1.vcxproj" on node 2 (build target(s)).
+     1>PrepareForBuild:
+         Creating directory "D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\".
+       InitializeBuildStatus:
+         Creating "Debug\MASM_FP1.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\MASM_FP1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\MASM_FP1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt MASM_FP1.cpp
+         MASM_FP1.cpp
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\MASM_FP1.exe.embed.manifest.res" Debug\MASM_FP1_manifest.rc 
+       Link:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\MASM_FP1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.lib" /MACHINE:X86 Debug\MASM_FP1.exe.embed.manifest.res
+         Debug\MASM_FP1.obj
+         Debug\stdafx.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\MASM_FP1.exe.embed.manifest" /manifest Debug\MASM_FP1.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\MASM_FP1.exe.embed.manifest.res" Debug\MASM_FP1_manifest.rc 
+       LinkEmbedManifest:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\MASM_FP1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.lib" /MACHINE:X86 Debug\MASM_FP1.exe.embed.manifest.res
+         Debug\MASM_FP1.obj
+         Debug\stdafx.obj
+         MASM_FP1.vcxproj -> D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\Debug\MASM_FP1.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\MASM_FP1.unsuccessfulbuild".
+         Touching "Debug\MASM_FP1.lastbuildstate".
+     1>Done Building Project "D:\梅努斯\计算机结构\labs\lab2\MASM_FP1\MASM_FP1\MASM_FP1.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.99

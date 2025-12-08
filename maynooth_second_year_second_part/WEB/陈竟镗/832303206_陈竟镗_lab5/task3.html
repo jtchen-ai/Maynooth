@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩单表格（自定义确认）</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            /* display: flex; */ /* 移除这个以避免影响模态框的覆盖效果 */
+            /* justify-content: center; */
+        }
+
+        .page-content { /* 新增一个容器来居中表格，同时不影响模态框 */
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .table-container {
+            width: 80%;
+            max-width: 800px;
+            overflow-x: auto;
+            margin-top: 20px; /* 确保表格和模态框不重叠 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            /* margin-top: 20px; */ /* 移到table-container */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #e9e9e9;
+            color: #333;
+            font-weight: bold;
+        }
+
+        td:nth-child(3) { text-align: center; }
+        td:nth-child(4) { text-align: center; }
+
+        .delete-link {
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 自定义模态对话框样式 */
+        .modal-overlay {
+            display: none; /* 初始隐藏 */
+            position: fixed; /* 固定定位，覆盖整个视口 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景遮罩 */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            z-index: 1000; /*确保在最上层 */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 0; /* 移除内边距，让子元素控制 */
+            border-radius: 8px; /* 圆角 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 300px; /* 对话框宽度，可调整 */
+            max-width: 90%;
+            text-align: center; /* 内部文本居中 */
+            overflow: hidden; /* 确保圆角生效 */
+        }
+
+        .modal-content p {
+            padding: 25px 20px; /* 消息区域的内边距 */
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #eee; /* 消息和按钮之间的分割线 */
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-around; /* 按钮均匀分布 */
+            padding: 0; /* 移除内边距 */
+        }
+
+        .modal-button {
+            background-color: transparent; /* 透明背景 */
+            border: none;
+            padding: 12px 20px; /* 按钮内边距 */
+            font-size: 15px;
+            cursor: pointer;
+            flex-grow: 1; /* 让按钮平分空间 */
+            color: #007bff; /* 默认按钮颜色 */
+        }
+        .modal-button:first-child {
+             border-right: 1px solid #eee; /* 按钮之间的分割线 */
+        }
+
+        .modal-button.cancel-btn {
+            color: #555; /* 取消按钮颜色 */
+        }
+        .modal-button.confirm-btn {
+            color: #007bff; /* 确认按钮颜色 */
+            font-weight: bold; /* 确认按钮字体加粗 */
+        }
+
+
+        .modal-button:hover {
+            background-color: #f5f5f5; /* 鼠标悬停效果 */
+        }
+
+        @media (max-width: 600px) {
+            th, td { font-size: 13px; padding: 8px 10px; }
+            .table-container { width: 95%; }
+            .modal-content { width: 85%; }
+            .modal-content p { font-size: 15px; padding: 20px 15px;}
+            .modal-button { font-size: 14px; padding: 10px 15px;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-content">
+    <div class="table-container">
+        <table id="gradesTable">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>科目</th>
+                    <th>成绩</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 表格数据行将由JavaScript动态生成 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 自定义确认模态框 -->
+<div id="customConfirmModal" class="modal-overlay">
+    <div class="modal-content">
+        <p id="confirmMessage">确认要删除吗？</p>
+        <div class="modal-actions">
+            <button id="confirmCancelBtn" class="modal-button cancel-btn">取消</button>
+            <button id="confirmOkBtn" class="modal-button confirm-btn">好</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const gradesData = [
+        { name: 'test0', subject: 'JavaScript', score: 10 },
+        { name: 'test1', subject: 'JavaScript', score: 9 },
+        { name: 'test2', subject: 'JavaScript', score: 9 },
+        { name: 'test3', subject: 'JavaScript', score: 8 },
+        { name: 'test4', subject: 'JavaScript', score: 1 }
+    ];
+
+    const tableBody = document.getElementById('gradesTable').getElementsByTagName('tbody')[0];
+
+    // 自定义模态框元素
+    const customConfirmModal = document.getElementById('customConfirmModal');
+    const confirmMessageElement = document.getElementById('confirmMessage'); // 虽然本例消息固定，但可以获取以备将来扩展
+    const confirmOkBtn = document.getElementById('confirmOkBtn');
+    const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+
+    let currentDeleteIndex = null; // 用于存储当前要删除的条目的索引
+
+    function showCustomConfirm(index) {
+        currentDeleteIndex = index;
+        // confirmMessageElement.textContent = `确认要删除 ${gradesData[index].name} 的记录吗？`; // 可以使消息更具体
+        customConfirmModal.style.display = 'flex'; // 显示模态框
+    }
+
+    function hideCustomConfirm() {
+        customConfirmModal.style.display = 'none'; // 隐藏模态框
+    }
+
+    confirmOkBtn.addEventListener('click', function() {
+        if (currentDeleteIndex !== null) {
+            deleteGradeEntry(currentDeleteIndex);
+        }
+        hideCustomConfirm();
+        currentDeleteIndex = null; // 重置索引
+    });
+
+    confirmCancelBtn.addEventListener('click', function() {
+        hideCustomConfirm();
+        currentDeleteIndex = null; // 重置索引
+    });
+
+    function renderTable() {
+        tableBody.innerHTML = '';
+        gradesData.forEach((student, index) => {
+            const row = document.createElement('tr');
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = student.name;
+            row.appendChild(nameCell);
+
+            const subjectCell = document.createElement('td');
+            subjectCell.textContent = student.subject;
+            row.appendChild(subjectCell);
+
+            const scoreCell = document.createElement('td');
+            scoreCell.textContent = student.score;
+            row.appendChild(scoreCell);
+
+            const actionCell = document.createElement('td');
+            const deleteLink = document.createElement('a');
+            deleteLink.href = '#';
+            deleteLink.textContent = '删除';
+            deleteLink.classList.add('delete-link');
+
+            deleteLink.onclick = function(event) {
+                event.preventDefault();
+                showCustomConfirm(index); // 调用自定义确认框
+            };
+            actionCell.appendChild(deleteLink);
+            row.appendChild(actionCell);
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    function deleteGradeEntry(indexToDelete) {
+        gradesData.splice(indexToDelete, 1);
+        renderTable();
+    }
+
+    renderTable();
+</script>
+
+</body>
+</html>

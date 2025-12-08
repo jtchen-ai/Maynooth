@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send E-mail Form</title>
+    <style>
+        /* Basic styling for better visual appearance */
+        body {
+            font-family: sans-serif; /* Use a common sans-serif font */
+            margin: 20px; /* Add some space around the form */
+        }
+
+        /* Style the form container */
+        form {
+            max-width: 450px; /* Limit form width for better readability */
+            border: 1px solid #eee; /* Optional: add a light border */
+            padding: 20px; /* Add padding inside the form */
+            background-color: #f9f9f9; /* Light background for the form */
+            border-radius: 5px; /* Optional: rounded corners */
+        }
+
+        /* Style labels */
+        label {
+            display: block; /* Make each label appear on its own line */
+            margin-bottom: 5px; /* Add space below each label */
+            font-weight: normal; /* Labels in the image are not bold */
+        }
+
+        /* Style text inputs and textarea */
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%; /* Make inputs fill the container width */
+            padding: 8px; /* Add padding inside inputs */
+            margin-bottom: 15px; /* Add space below inputs */
+            border: 1px solid #ccc; /* Standard border */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            font-size: 1em; /* Match body font size */
+        }
+
+        /* Style the textarea specifically */
+        textarea {
+            height: 60px; /* Set a specific height for the comment box */
+            resize: vertical; /* Allow users to resize vertically */
+        }
+
+        /* Style the select dropdown */
+        select {
+            padding: 8px;
+            margin-bottom: 15px; /* Add space below the dropdown */
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        /* Style buttons */
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 10px 15px; /* Padding inside buttons */
+            margin-right: 10px; /* Space between buttons */
+            border: 1px solid #ccc;
+            background-color: #f0f0f0; /* Light grey background */
+            cursor: pointer; /* Indicate buttons are clickable */
+            font-size: 1em;
+        }
+
+        /* Style buttons on hover */
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #e0e0e0; /* Slightly darker on hover */
+        }
+
+        /* Style the main title/instruction */
+        .form-title {
+            font-size: 1.2em; /* Slightly larger font size */
+            font-weight: bold; /* Make the title bold */
+            margin-bottom: 20px; /* Space below the title */
+        }
+
+         /* Style placeholder text */
+        ::placeholder { /* Modern browsers */
+            color: #888;
+            opacity: 1;
+        }
+        :-ms-input-placeholder { /* IE 10-11 */
+           color: #888;
+        }
+        ::-ms-input-placeholder { /* Edge */
+           color: #888;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- The main title/instruction -->
+    <div class="form-title">Send e-mail to someone@example.com:</div>
+
+    <!-- Start of the form -->
+    <!-- The action attribute specifies where to send form data. '#' is a placeholder. -->
+    <!-- The method attribute specifies how to send form data (GET or POST). -->
+    <form action="#" method="post">
+
+        <!-- Name Field -->
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="user_name" placeholder="your name" required>
+            <!--
+                label for="name": Associates the label text with the input field having id="name". Clicking the label focuses the input.
+                input type="text": A single-line text input field.
+                id="name": Unique identifier for this element, used by the label.
+                name="user_name": Name sent to the server when the form is submitted.
+                placeholder="your name": Hint text displayed in the field before the user enters value.
+                required: Makes this field mandatory.
+            -->
+        </div>
+
+        <!-- E-mail Field -->
+        <div>
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="user_email" placeholder="your email" required>
+            <!--
+                input type="email": Similar to "text", but designed for email addresses. Browsers might offer email-specific validation or keyboard layouts on mobile.
+            -->
+        </div>
+
+        <!-- Comment Field -->
+        <div>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="user_comment" placeholder="your comment" required></textarea>
+            <!--
+                textarea: A multi-line text input field.
+                placeholder: Works similarly to input fields.
+            -->
+        </div>
+
+        <!-- Send Time Field -->
+        <div>
+            <label for="send-time">send time:</label>
+            <select id="send-time" name="send_time">
+                <!--
+                    select: Creates a dropdown list.
+                    option: Defines an item within the dropdown list.
+                    value: The value sent to the server if this option is selected.
+                    selected: Pre-selects this option when the page loads (matching the image).
+                -->
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015" selected>2015</option>
+                <!-- Add more years if needed -->
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+            <input type="submit" value="Send">
+            <!--
+                input type="submit": A button that submits the form data to the 'action' URL.
+                value="Send": The text displayed on the button.
+            -->
+            <input type="reset" value="Reset">
+            <!--
+                input type="reset": A button that resets all form fields to their initial values.
+                value="Reset": The text displayed on the button.
+            -->
+        </div>
+
+    </form>
+
+</body>
+</html>
