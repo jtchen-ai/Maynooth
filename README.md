@@ -1,4 +1,4 @@
-# 📚 FZU-MIEC Software Engineering Exam Review | 福大梅努斯软工复习资料
+# 📚 FZU-MIEC Software Engineering Exam Review | 福大梅努斯软工通关攻略
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
