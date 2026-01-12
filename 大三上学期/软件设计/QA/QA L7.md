@@ -1,4 +1,122 @@
-# QA L7
+# QAL7(作者原版)
+
+
+
+## 问题 1：能否解释一下为什么组合能促进继承所无法实现的动态行为？（调整版更好）
+
+回答：我们要知道，当一个子类继承父类时，它只是继承了父类当时的行为。虽然不同的子类可以用不同的方式扩展父类，但这种**绑定关系在编译时就确定了**，所以本质上是静态的。
+
+但在例子中使用的组合概念，能让你尝试动态行为。当我们设计一个父类时，往往**无法预见以后客户可能需要什么样的额外职责**。而且我们受到的限制是不能频繁修改现有的代码。在这种情况下，对象组合不仅胜过继承，还能**保证我们不会给现有的架构引入错误**。最后，在这个背景下，你必须记住一个关键的设计原则：**类应该对扩展开放，对修改关闭。**
+
+
+
+## 问题 2：使用装饰器的主要优势是什么？
+
+回答：
+
+- 现有的结构不会被触动，这样你就不会在哪里引入错误。
+
+- 新的功能可以很容易地添加到现有的对象上。你不需要在最初的设计阶段就预测或实现所有支持的功能。
+
+- 你可以增量开发，比如一个接一个地添加装饰器对象来支持不断增加的需求。
+- 你必须承认一个事实，如果你先制造了一个复杂的类，然后再试图扩展它的功能，那将是一个很繁琐的过程。
+
+问题 3：这种设计模式整体上和继承有什么区别？
+
+回答：
+
+- 装饰器通过简单的附加或分离装饰器来增加或移除职责。
+
+- 但是如果用简单的继承机制，你需要为新的职责创建一个新的类。所以，你最终可能会得到一个复杂的系统。
+
+再来看看这个例子。假设你想加一层楼，给房子刷漆，再做些额外的工作。为了满足这个需求，你从 decorator2 开始，因为它已经提供了在现有架构上加一层楼的支持，然后你可以刷漆。所以，你可以加一个简单的包装器来完成那些额外的职责。但如果你从一开始就用继承，你可能会有很多子类，比如一个用于加楼层，一个用于刷房子。图 7-6 展示了层级继承。
+
+如果你需要一个带额外特性的刷过漆的楼层，你最终的设计可能会像图 7-7 展示的那样。
+
+现在你会感受到菱形继承问题的压力，因为在包括 Java 在内的许多编程语言中，是不允许有多个父类的。在这个背景下，即使你考虑多层继承，你会发现总的来说继承机制比装饰器模式更具挑战性也更耗时，而且它可能会导致你的应用程序中出现重复代码。最后，你必须记住继承机制只促进编译时绑定，而不是动态绑定。
+
+
+
+## 问题 4：为什么在前面的场景中多层继承的效果不好？
+
+回答：假设 Paint 类派生自 Additional Floor 类，而 Additional Floor 类又派生自 Core Architecture 类。现在如果你的客户想给房子刷漆但不想加一层楼，装饰器模式肯定胜过继承机制，因为你可以简单地给只支持刷漆的现有系统添加一个装饰器。
+
+## 问题 5：为什么你创建一个只负责单一职责的类？你可以做一个子类，既能加楼层又能刷漆。那样的话，子类数量会更少。这个理解对吗？
+
+回答：如果你熟悉 SOLID 原则，你知道有一个原则叫单一职责原则。这个原则背后的想法是，软件中的每个类都应该只负责一部分功能。
+
+当你使用单一职责原则时，装饰器模式非常有效，因为你可以简单地动态添加或移除职责。
+
+## 问题 6：这个模式有什么缺点？
+
+回答：我相信如果你足够小心，就没有明显的缺点。但你必须意识到，如果你在系统里创建了太多的装饰器，维护和调试起来会很困难。所以在这种情况下，它可能会造成不必要的困扰。
+
+## 问题 7：在例子里，AbstractDecorator 类中没有抽象方法。这怎么可能？
+
+回答：在 Java 里，你可以有一个不包含任何抽象方法的抽象类，但反过来是不行的；也就是说，如果一个类包含至少一个抽象方法，那么这个类本身就是不完整的，你必须用 abstract 关键字标记它。让我们回顾一下粗体显示的 AbstractDecorator 类。
+
+Java
+
+```
+abstract class AbstractDecorator extends Component
+{
+    protected Component component ;
+    public void setTheComponent(Component c)
+    {
+        component = c;
+    }
+    public void makeHouse()
+    {
+      if (component != null)
+        {
+         component.makeHouse();//Delegating the task
+        }
+    }
+}
+```
+
+你可以看到我把任务委托给了一个具体的装饰器，因为我只想使用和实例化具体的装饰器。另外，在这个例子里，你不能简单地实例化一个 AbstractDecorator 实例，因为它被标记了 abstract 关键字。下面这行代码会导致 Cannot instantiate the type AbstractDecorator 这样的编译错误。
+
+AbstractDecorator abstractDecorator = new AbstractDecorator();
+
+## **问题 8：在你的例子里，你可以用多态的概念代替具体装饰器来生成同样的输出，如下所示。这个做法对吗？**
+
+Java
+
+```
+System.out.println("Using a Floor decorator now."); 
+//FloorDecorator floorDecorator = new FloorDecorator();
+AbstractDecorator floorDecorator = new FloorDecorator();
+floorDecorator.setTheComponent(withoutDecorator);
+floorDecorator.makeHouse();
+//Using a decorator to add floor to original house and then paint 
+//it.
+System.out.println("Using a Paint decorator now.");
+//PaintDecorator paintDecorator = new PaintDecorator();
+AbstractDecorator paintDecorator = new PaintDecorator();
+//Adding results from decorator1
+paintDecorator.setTheComponent(floorDecorator);
+paintDecorator.makeHouse();
+System.out.println("_________________");
+```
+
+回答：是的。
+
+## 问题 9：必须只把装饰器用于动态绑定吗？
+
+回答：不是。你可以同时使用静态和动态绑定。**但动态绑定是它的强项**，所以我主要集中讲这个。你可能会注意到 GoF 的定义也是只关注动态绑定。
+
+## 问题 10：你是在用装饰器包裹核心架构吗？
+
+回答：是的。装饰器是用来**扩展应用程序核心功能的包装代码**。但是当你使用它们时，**核心架构是不会被触动**的。
+
+****
+
+
+
+
+
+# QA L7（AI 调整版）
 
 ### 1. 你能解释组合是如何促进继承所无法实现的动态行为的吗？
 

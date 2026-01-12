@@ -1,4 +1,75 @@
-# QA L8
+
+
+# QA L8（作者原版）
+
+
+
+## 问题 1：在 Java 中怎么实现类适配器设计模式？
+
+回答：你可以继承一个现有的类并实现想要的接口。举个例子，如果你想在修改后的实现里用类适配器而不是对象适配器，你可以使用下面的代码。
+
+Java
+
+```
+class TriangleClassAdapter extends Triangle implements 
+RectInterface
+{
+    public TriangleClassAdapter(double base, double height) {
+        super(base, height);
+    }
+    @Override
+    public void aboutRectangle()
+    {
+        aboutTriangle();
+    }
+    @Override
+    public double calculateAreaOfRectangle()
+    {
+        return calculateAreaOfTriangle();
+    }
+}
+```
+
+但是要注意，这种方法并不总是行得通。比如，如果 Triangle 类是一个 final 类，你就没法继承它了。除了这种情况，当你发现需要适配一个接口里没有定义的方法时，你也会卡住。所以在这些情况下，对象适配器更有用。
+
+
+
+## 问题 2：“除了这种情况，当你发现需要适配一个接口里没有定义的方法时，你也会卡住。”这是什么意思？
+
+回答：在修改后的实现中，你使用了 aboutRectangle 和 aboutTriangle 方法。这些方法实际上是在描述 Rectangle 和 Triangle 类的对象。现在假设 Triangle 类里没有 aboutTriangle 方法，而是有一个叫 aboutMe 的方法，它的作用是一样的，但是 RectInterface 接口里并没有这个方法。那么，要想适配 Triangle 类里的 aboutMe 方法，并写出类似下面这样的代码，就会是个很有挑战的任务：
+
+Java
+
+```
+for(RectInterface rectObjects:rectangleObjects)
+{
+    rectObjects.aboutMe();
+}
+```
+
+## 问题 3：类适配器和对象适配器，你更喜欢哪一个？
+
+回答：在大多数情况下，相比于继承，我更喜欢组合。对象适配器使用的是组合，所以更灵活。另外，在很多情况下，你可能没法实现真正的类适配器。关于这一点，你可以再回头看看前面几个问题的回答。
+
+## 问题 4：这个模式有什么缺点？
+
+回答：我没看到什么大的挑战。我相信你可以把适配器的工作做得简单直接，但你可能需要写一些额外的代码。不过回报也是巨大的，特别是对于那些不能修改但为了稳定性又必须使用的遗留系统来说。
+
+同时，专家建议不要在适配器里使用不同类型的验证或者添加新的行为。
+
+理想情况下，适配器的工作应该仅限于执行简单的接口转换。
+
+
+
+
+
+
+
+
+
+
+
+# QA L8（AI 润色）
 
 1.如何在Java中实现类适配器设计模式
 
