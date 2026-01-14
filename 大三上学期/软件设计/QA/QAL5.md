@@ -1,4 +1,264 @@
+# QA(原版)
 
+
+
+## 问题 1：我看到狗和老虎的接口都包含名字相同的方法，比如都包含 speak 和 preferredAction 方法。这是强制要求的吗？
+
+回答：不。你可以给方法起不同的名字。而且，这些接口里的方法数量也可以不同。但在本书里，我涵盖了简单工厂模式和工厂方法模式。你可能会对它们之间的相似点或不同点感兴趣。所以我从一个例子开始，然后不断修改它。这就是为什么我在这个例子里保留了 speak 和 preferredAction 这两个方法。请注意，这些方法在第 24 章的简单工厂模式和第 4 章的工厂方法模式里都用到了。
+
+## 问题 2：像这样使用抽象工厂有什么挑战？
+
+回答：**抽象工厂的任何改变都会迫使我们去修改具体的工厂**。如果你遵循针对接口编程而不是针对实现编程的设计哲学，你需要对此做好准备。这是开发者时刻谨记的关键原则之一。在大多数场景下，开发者是不希望更改抽象工厂的。
+
+另外，整体架构看起来可能会很复杂。
+
+而且，在某些场景下调试会变得很棘手。
+
+## 问题 3：如何区分简单工厂模式、工厂方法模式和抽象工厂模式？
+
+回答：我在第 4 章的问答部分讨论过简单工厂模式和工厂方法模式的区别。让我们结合下面的图表复习一下这三种工厂。
+
+简单工厂模式代码片段
+
+这里是代码片段。
+
+Java
+
+```
+Animal preferredType=null;
+SimpleFactory simpleFactory = new SimpleFactory();
+// The code that will vary based on users preference.
+preferredType = simpleFactory.createAnimal();
+```
+
+图 5-4 展示了在简单工厂模式中如何获取动物对象。
+
+工厂方法模式代码片段
+
+这里是代码片段。
+
+Java
+
+```
+// Creating a Tiger Factory
+AnimalFactory tigerFactory =new TigerFactory();
+// Creating a tiger using the Factory Method
+Animal aTiger = tigerFactory.createAnimal();
+//...Some code in between...
+// Creating a DogFactory
+AnimalFactory dogFactory = new DogFactory();
+// Creating a dog using the Factory Method
+Animal aDog = dogFactory.createAnimal();
+```
+
+图 5-5 展示了在工厂方法模式中如何获取动物对象。
+
+抽象工厂模式代码片段
+
+这里是代码片段。
+
+Java
+
+```
+AnimalFactory myAnimalFactory;
+Dog myDog;
+Tiger myTiger;
+System.out.println("***Abstract Factory Pattern Demo***\n");
+//Making a wild dog through WildAnimalFactory
+myAnimalFactory = new WildAnimalFactory();
+myDog = myAnimalFactory.createDog();
+//Making a wild tiger through WildAnimalFactory
+myTiger = myAnimalFactory.createTiger();
+//Making a pet dog through PetAnimalFactory
+myAnimalFactory = new PetAnimalFactory();
+myDog = myAnimalFactory.createDog();
+//Making a pet tiger through PetAnimalFactory
+myTiger = myAnimalFactory.createTiger();
+myTiger.speak();
+myTiger.preferredAction();
+```
+
+图 5-6 展示了在抽象工厂模式中如何获取动物对象。
+
+结论
+
+- 使用简单工厂，你可以把变动的代码和其余代码分离开，基本上就是把客户端代码解耦。这种方法可以帮你轻松地管理代码。这个方法的另一个关键优势是客户端不知道对象是如何创建的。所以，它促进了安全性和抽象性。但它可能会**违反开闭原则**。
+
+- 你可以使用工厂方法模式来克服这个缺点，它允许子类决定实例化过程是如何完成的。换句话说，你把创建对象的任务委托给了实现工厂方法的子类。
+
+- 抽象工厂本质上是工厂的工厂。它创建相关**对象的家族**，但不依赖于具体的类。
+
+我尽量保持例子简单且彼此接近。**工厂方法促进继承**，它们的子类需要实现工厂方法来创建对象。**抽象工厂模式促进对象组合**，你可以使用抽象工厂的具体实例来组合类。
+
+所有这些工厂都通过减少对具体类的依赖来促进松耦合。
+
+## 问题 4：在所有这些工厂示例中，你都避免使用带参数的构造函数。这是故意的吗？
+
+回答：在许多应用程序中，你会看到带参数的构造函数的使用，许多专家更喜欢这种方法。但我的关注点纯粹在设计上，所以我忽略了带参数构造函数的使用。但如果你喜欢带参数的构造函数，让我们稍微修改一下实现，这样你就可以在剩余的部分做同样的事了。
+
+修改后的演示
+
+假设你想让工厂初始化指定颜色的老虎，并且客户端可以选择这些颜色。让我们修改下面的代码片段，变化部分在原书中是粗体显示的。
+
+修改后的实现
+
+这里是修改后的实现代码。
+
+Java
+
+```
+package jdp2e.abstractfactory.questions_answers;
+interface Dog
+{
+      void speak();
+      void preferredAction();
+}
+interface Tiger
+{
+      void speak();
+      void preferredAction();
+}
+//Types of Dogs-wild dogs and pet dogs
+class WildDog implements Dog
+{
+      @Override
+      public void speak()
+      {
+            System.out.println("Wild Dog says loudly: Bow-Wow.");
+      }
+      @Override
+      public void preferredAction()
+      {
+             System.out.println("Wild Dogs prefer to roam freely in jungles.\n");
+      }
+}
+class PetDog implements Dog
+{
+      @Override
+      public void speak()
+      {
+            System.out.println("Pet Dog says softly: Bow-Wow.");
+      }
+      @Override
+      public void preferredAction()
+      {
+            System.out.println("Pet Dogs prefer to stay at home.\n");
+      }
+}
+//Types of Tigers-wild tigers and pet tigers
+class WildTiger implements Tiger
+{
+      public WildTiger(String color)      {             System.out.println("A wild tiger with "+ color+ " is created.");      }      @Override
+      public void speak()
+      {
+            System.out.println("Wild Tiger says loudly: Halum.");
+      }
+      @Override
+      public void preferredAction()
+      {
+            System.out.println("Wild Tigers prefer hunting in jungles.\n");
+      }
+}
+class PetTiger implements Tiger
+{
+      public PetTiger(String color)      {            System.out.println("A pet tiger with "+ color+ " is created.");      }      @Override
+      public void speak()
+      {
+            System.out.println("Pet Tiger says softly: Halum.");
+      }
+      @Override
+      public void preferredAction()
+      {
+            System.out.println("Pet Tigers play in the animal circus.\n");
+      }
+}
+//Abstract Factory
+interface AnimalFactory
+{
+      Dog createDog();
+      Tiger createTiger(String color);}
+//Concrete Factory-Wild Animal Factory
+class WildAnimalFactory implements AnimalFactory
+{
+      @Override
+      public Dog createDog()
+      {
+            return new WildDog();
+      }
+      @Override
+      public Tiger createTiger(String color)      {            return new WildTiger(color);      }}
+//Concrete Factory-Pet Animal Factory
+class PetAnimalFactory implements AnimalFactory
+{
+      @Override
+      public Dog createDog()
+      {
+            return new PetDog();
+      }
+      @Override
+      public Tiger createTiger(String color)      {            return new PetTiger(color);      }}
+//Client
+class AbstractFactoryPatternModifiedExample {
+          public static void main(String[] args) {
+            AnimalFactory myAnimalFactory;
+            Dog myDog;
+            Tiger myTiger;
+            System.out.println("***Abstract Factory Pattern Demo***\n");
+            //Making a wild dog through WildAnimalFactory
+            myAnimalFactory = new WildAnimalFactory();
+            myDog = myAnimalFactory.createDog();
+            myDog.speak();
+            myDog.preferredAction();
+            //Making a wild tiger through WildAnimalFactory
+            //myTiger = myAnimalFactory.createTiger();
+            myTiger = myAnimalFactory.createTiger("white and black stripes");            myTiger.speak();
+            myTiger.preferredAction();
+            System.out.println("******************");
+            //Making a pet dog through PetAnimalFactory
+            myAnimalFactory = new PetAnimalFactory();
+            myDog = myAnimalFactory.createDog();
+            myDog.speak();
+            myDog.preferredAction();
+            //Making a pet tiger through PetAnimalFactory
+             myTiger = myAnimalFactory.createTiger("golden and cinnamon stripes");            myTiger.speak();
+            myTiger.preferredAction();
+      }
+}
+```
+
+修改后的输出
+
+这里是修改后的输出。
+
+Abstract Factory Pattern Demo
+
+Wild Dog says loudly: Bow-Wow.
+
+Wild Dogs prefer to roam freely in jungles.
+
+A wild tiger with white and black stripes is created.
+
+Wild Tiger says loudly: Halum.
+
+Wild Tigers prefer hunting in jungles.
+
+------
+
+Pet Dog says softly: Bow-Wow.
+
+Pet Dogs prefer to stay at home.
+
+A pet tiger with golden and cinnamon stripes is created.
+
+Pet Tiger says softly: Halum.
+
+Pet Tigers play in the animal circus.
+
+
+
+
+
+# QA(AI 版)
 
 ### 1. 我看到狗和老虎的接口都包含相同名称的方法（两个接口都包含 speak() 和 preferredAction() 方法）。这是强制性的吗？
 
